@@ -19,7 +19,6 @@ public class Login {
 		String password = sc.next();
 		MemberDTO member = null;
 		member = new MemberDTO(id,password);
-		System.out.println(member.getId());
 		new MemberDAO().logIn(member);
 		
 		System.exit(0);
