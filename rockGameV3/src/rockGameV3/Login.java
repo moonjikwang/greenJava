@@ -9,19 +9,30 @@ import java.util.Scanner;
 
 public class Login {
 	static Scanner sc = new Scanner(System.in);
-	private String email;
-	//Login 검증 후 로그인기록 추가 & GameLogic 호출
+	protected static MemberDTO member = null;
+	//Login 검증 후 로그인기록 추가 & GameMenu 호출
 	
 	public Login() {
 		System.out.print("ID : ");
 		String id = sc.next();
 		System.out.print("PW : ");
 		String password = sc.next();
-		MemberDTO member = null;
 		member = new MemberDTO(id,password);
-		new MemberDAO().logIn(member);
-		
-		System.exit(0);
+		int logInVal = new MemberDAO().logIn(member);
+		switch (logInVal) {
+		case -1:
+			System.out.println("해당 아이디는 없습니다.");
+			break;
+		case 0:
+			System.out.println("비밀번호가 틀렸습니다.");
+			break;
+		case 1:
+			System.out.println("로그인에 성공했습니다. "+id+"님 반갑습니다.");
+			new GameMenu();
+			break;
+		default:
+			break;
+		}
 	}
 
 }

@@ -6,7 +6,13 @@ package rockGameV3;
  * GameStart , ShowStats, LastLogin,ChangePw
  */
 public class GameMenu {
-	
-	
+	public GameMenu() {
+		showMenu();
+	}
+
+	private void showMenu() {
+		System.out.println("1.게임하기 2.전적보기 3.마지막접속확인 4.암호변경");
+		
+	}
 
 }
