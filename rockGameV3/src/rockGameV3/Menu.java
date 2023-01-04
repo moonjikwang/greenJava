@@ -1,5 +1,10 @@
 package rockGameV3;
-
+/*
+ * 메뉴클래스.
+ * 1.로그인하기 2.사용자계정생성 3.기타메뉴보기
+ * 사용자에게 입력받고 각 메뉴클래스를 호출(인스턴스생성)
+ * login 클래스, Register 클래스, OtherMenu 클래스
+ */
 import java.util.Scanner;
 
 public class Menu {
@@ -10,15 +15,15 @@ public class Menu {
 	
 	public void showMenu() {
 		System.out.println("가위바위보 게임입니다.");
-		System.out.println("1.회원가입 2.로그인 3.랭킹보기 4.종료");
+		System.out.println("1.로그인하기 2.사용자계정생성 3.기타메뉴보기");
 		System.out.print(">");
 		int select = sc.nextInt();
 		switch (select) {
-		case 1:register();
+		case 1:login();
 			break;
-		case 2:login();
+		case 2:register();
 		break;
-		case 3:ranking();
+		case 3:otherMenu();
 		break;
 		default:
 			break;
@@ -32,8 +37,8 @@ public class Menu {
 	public void register() {	
 		new Register();
 	}
-	public void ranking() {
-		new Ranking();
+	public void otherMenu() {
+		new OtherMenu();
 	}
 
 }
