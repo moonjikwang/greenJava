@@ -69,7 +69,7 @@ public class MemberDAO {
 
 	// 로그인 메서드
 	public int logIn(MemberDTO member) {
-		System.out.println("호출됨..");
+		System.out.print("멤버파일 ->");
 		int result = -1; // ID 없음, 0 Pass 틀림, 1 OK
 		File[] fileList = root.listFiles();
 		String id = member.getId() + ".dat";
@@ -90,20 +90,16 @@ public class MemberDAO {
 			BufferedReader br = new BufferedReader(fr);
 			String msg = null;
 			while ((msg = br.readLine()) != null) {
-				if (msg.startsWith("password")) {
-					password = msg.substring(msg.indexOf(":") + 1, msg.length());
+				if (msg.startsWith("Password")) {
+					password = msg.substring(msg.indexOf(":") + 2, msg.length());
 					if (password.equals(member.getPassword())) {
 						result = 1;
 					}
-
-					System.out.println("암호 : " + password);
-
 				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		System.out.println("회원조회 => " + result);
 		return result;
 	}
 
