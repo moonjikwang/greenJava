@@ -18,7 +18,7 @@ public class Login {
 		System.out.print("PW : ");
 		String password = sc.next();
 		member = new MemberDTO(id,password);
-		int logInVal = new MemberDAO().logIn(member);
+		int logInVal = MemberDAO.getInstance().logIn(member);
 		switch (logInVal) {
 		case -1:
 			System.out.println("해당 아이디는 없습니다.");
