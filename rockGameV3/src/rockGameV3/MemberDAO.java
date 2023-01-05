@@ -12,9 +12,8 @@ public class MemberDAO {
 
 	private static MemberDAO instance = new MemberDAO();
 	private MemberDTO member;
-	private static String theParentFolder = "Members/";
-	private static File folder = new File(theParentFolder);
-
+	private static String rootFolder = "Members/";
+	private static File folder = new File(rootFolder);
 	FileWriter fw;
 	BufferedWriter bw;
 	FileReader fr;
@@ -22,19 +21,9 @@ public class MemberDAO {
 
 	private MemberDAO() {
 	}
+	
 	public static MemberDAO getInstance() {
 		return instance;
-	}
-
-	public int doWork(MemberDTO member) {// 회원 가입일지, 사용자 정보를 세팅일지 한번에 처리하는 메서드
-		this.member = member;
-		int result = 0;// 결과값 Flag ... 예외 0, OK 1
-		if (this.member instanceof MemberDTO) {// 로그인 사용자 객체인 경우 파일 생성
-			result = registerId(member);
-		} else if (this.member instanceof MemberDTO) {
-
-		}
-		return result;
 	}
 
 	// 회원가입메서드
@@ -50,8 +39,14 @@ public class MemberDAO {
 				try {
 					fw = new FileWriter(newMember);
 					bw = new BufferedWriter(fw);
-					bw.write("Email : " + member.getEmail() + "\n");
-					bw.write("Password : " + member.getPassword());
+					bw.write("Email:" + member.getEmail() + "\n");
+					bw.write("Password:" + member.getPassword() + "\n");
+					bw.write("LastLogin:" + member.getLastLogIn() + "\n");
+					bw.write("LastLogOut:" + member.getLastLogOut() + "\n");
+					bw.write("Win:" + member.getWin() + "\n");
+					bw.write("Lose:" + member.getLose() + "\n");
+					bw.write("Draw:" + member.getDraw() + "\n");
+					bw.write("Count:" + member.getCount() + "\n");
 					bw.close();
 					result = 1;
 				} catch (IOException e) {
@@ -71,7 +66,8 @@ public class MemberDAO {
 		System.out.print("멤버파일 ->");
 		int result = -1; // ID 없음, 0 Pass 틀림, 1 OK
 		File[] fileList = folder.listFiles();
-		String id = member.getId() + ".dat";
+		String email = member.getEmail();
+		String id = email.substring(0,email.indexOf('@')) + ".dat";
 		String password = null;
 		File thePlayer = null;
 		for (int i = 0; i < fileList.length; i++) {
@@ -84,12 +80,12 @@ public class MemberDAO {
 		}
 		if(result == 0) {
 		try {
-			FileReader fr = new FileReader(thePlayer.getAbsolutePath());
-			BufferedReader br = new BufferedReader(fr);
-			String msg = null;
-			while ((msg = br.readLine()) != null) {
-				if (msg.startsWith("Password")) {
-					password = msg.substring(msg.indexOf(":") + 2, msg.length());
+			fr = new FileReader(thePlayer.getAbsolutePath());
+			br = new BufferedReader(fr);
+			String keySerch = null;
+			while ((keySerch = br.readLine()) != null) {
+				if (keySerch.startsWith("Password")) {
+					password = keySerch.substring(keySerch.indexOf(":") + 1, keySerch.length());
 					if (password.equals(member.getPassword())) {
 						result = 1;
 					}
