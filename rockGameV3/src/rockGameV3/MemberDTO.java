@@ -1,6 +1,7 @@
 package rockGameV3;
 
 public class MemberDTO {
+	private String email;
 	private String id;
 	private String password;
 	private int win;
@@ -8,9 +9,14 @@ public class MemberDTO {
 	private int draw;
 	private int count;
 
-	public MemberDTO(String id, String password) {
-		this.id = id;
+	public MemberDTO(String email, String password) {
+		this.email = email;
 		this.password = password;
+		if(email.isEmpty() || email.indexOf('@') == -1) {
+			System.out.println("잘못된 이메일 형식입니다.");
+			System.exit(0);
+		}
+		this.id = email.substring(0,email.indexOf('@'));
 	}
 	public String getPassword() {
 		return password;
@@ -20,6 +26,12 @@ public class MemberDTO {
 	}
 	public int getWin() {
 		return win;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getId() {
 		return id;
