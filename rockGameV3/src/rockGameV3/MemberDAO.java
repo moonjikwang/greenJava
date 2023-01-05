@@ -3,8 +3,6 @@ package rockGameV3;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +11,7 @@ public class MemberDAO {
 
 	private MemberDTO member;
 	private static String theParentFolder = "Members/";
-	private static File root = new File(theParentFolder);
+	private static File folder = new File(theParentFolder);
 
 	FileWriter fw;
 	BufferedWriter bw;
@@ -31,7 +29,7 @@ public class MemberDAO {
 	public int doWork() {// 회원 가입일지, 사용자 정보를 세팅일지 한번에 처리하는 메서드
 		int result = 0;// 결과값 Flag ... 예외 0, OK 1
 		if (this.member instanceof MemberDTO) {// 로그인 사용자 객체인 경우 파일 생성
-			result = registerId((MemberDTO) member);
+			result = registerId(member);
 		} else if (this.member instanceof MemberDTO) {
 
 		}
@@ -42,10 +40,10 @@ public class MemberDAO {
 	public int registerId(MemberDTO member) {
 		int result = 0;// 결과값 flag.. 모두 OK 1, 예외 0
 
-		if (!root.exists() || !root.isDirectory()) {
-			root.mkdir();
+		if (!folder.exists() || !folder.isDirectory()) {
+			folder.mkdir();
 		} else {
-			File newMember = new File(root, member.getId() + ".dat");// Parent Folder 하위에 생성할 사용자 Email 정보 획득..
+			File newMember = new File(folder, member.getId() + ".dat");// Parent Folder 하위에 생성할 사용자 Email 정보 획득..
 
 			if (br == null && fw == null) {
 				try {
@@ -71,10 +69,9 @@ public class MemberDAO {
 	public int logIn(MemberDTO member) {
 		System.out.print("멤버파일 ->");
 		int result = -1; // ID 없음, 0 Pass 틀림, 1 OK
-		File[] fileList = root.listFiles();
+		File[] fileList = folder.listFiles();
 		String id = member.getId() + ".dat";
 		String password = null;
-		int differ = 0;
 		File thePlayer = null;
 		for (int i = 0; i < fileList.length; i++) {
 			thePlayer = fileList[i];
@@ -84,7 +81,7 @@ public class MemberDAO {
 				break;
 			}
 		}
-
+		if(result == 0) {
 		try {
 			FileReader fr = new FileReader(thePlayer.getAbsolutePath());
 			BufferedReader br = new BufferedReader(fr);
@@ -99,7 +96,7 @@ public class MemberDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
+		}}
 		return result;
 	}
 
