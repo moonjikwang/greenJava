@@ -14,10 +14,10 @@ public class Login {
 	
 	public Login() {
 		System.out.print("ID : ");
-		String id = sc.next();
+		String Email = sc.next();
 		System.out.print("PW : ");
 		String password = sc.next();
-		member = new MemberDTO(id,password);
+		member = new MemberDTO(Email,password);
 		int logInVal = MemberDAO.getInstance().logIn(member);
 		switch (logInVal) {
 		case -1:
@@ -27,7 +27,7 @@ public class Login {
 			System.out.println("비밀번호가 틀렸습니다.");
 			break;
 		case 1:
-			System.out.println("로그인에 성공했습니다. "+id+"님 반갑습니다.");
+			System.out.println("로그인에 성공했습니다. "+Email+"님 반갑습니다.");
 			new GameMenu();
 			break;
 		default:

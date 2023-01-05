@@ -4,6 +4,8 @@ public class MemberDTO {
 	private String email;
 	private String id;
 	private String password;
+	private String lastLogIn;
+	private String lastLogOut;
 	private int win;
 	private int lose;
 	private int draw;
@@ -59,6 +61,18 @@ public class MemberDTO {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+	public String getLastLogIn() {
+		return lastLogIn;
+	}
+	public void setLastLogIn(String lastLogIn) {
+		this.lastLogIn = lastLogIn;
+	}
+	public String getLastLogOut() {
+		return lastLogOut;
+	}
+	public void setLastLogOut(String lastLogOut) {
+		this.lastLogOut = lastLogOut;
 	}
 
 }
