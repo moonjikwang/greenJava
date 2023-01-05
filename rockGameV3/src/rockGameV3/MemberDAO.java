@@ -7,8 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 public class MemberDAO {
 
+	private static MemberDAO instance = new MemberDAO();
 	private MemberDTO member;
 	private static String theParentFolder = "Members/";
 	private static File folder = new File(theParentFolder);
@@ -18,15 +20,14 @@ public class MemberDAO {
 	FileReader fr;
 	BufferedReader br;
 
-	public MemberDAO() {
-
+	private MemberDAO() {
+	}
+	public static MemberDAO getInstance() {
+		return instance;
 	}
 
-	public MemberDAO(MemberDTO member) {
+	public int doWork(MemberDTO member) {// 회원 가입일지, 사용자 정보를 세팅일지 한번에 처리하는 메서드
 		this.member = member;
-	}
-
-	public int doWork() {// 회원 가입일지, 사용자 정보를 세팅일지 한번에 처리하는 메서드
 		int result = 0;// 결과값 Flag ... 예외 0, OK 1
 		if (this.member instanceof MemberDTO) {// 로그인 사용자 객체인 경우 파일 생성
 			result = registerId(member);
@@ -49,7 +50,7 @@ public class MemberDAO {
 				try {
 					fw = new FileWriter(newMember);
 					bw = new BufferedWriter(fw);
-					bw.write("Email : " + member.getId() + "\n");
+					bw.write("Email : " + member.getEmail() + "\n");
 					bw.write("Password : " + member.getPassword());
 					bw.close();
 					result = 1;

@@ -23,7 +23,7 @@ public class Register {
 		System.out.print(">");
 		password = sc.next();
 		MemberDTO member = new MemberDTO(email,password);
-		int newMember = new MemberDAO(member).doWork();
+		int newMember = MemberDAO.getInstance().registerId(member);
 		if (newMember == 1) {
 			System.out.println("회원가입이 완료되었습니다.");
 				new Menu();
