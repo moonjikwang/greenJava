@@ -11,16 +11,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class MemberDAO {
 //---------------------필드선언 및 초기화 --------------------
 	private static MemberDAO instance = new MemberDAO();
-	private MemberDTO member;
 	private static String rootFolder = "Members/";
 	private static File folder = new File(rootFolder);
-	private static Scanner sc = new Scanner(System.in);
 	FileWriter fw;
 	BufferedWriter bw;
 	FileReader fr;
