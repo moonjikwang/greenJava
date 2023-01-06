@@ -1,5 +1,6 @@
 package rockGameV3;
 
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,7 +13,9 @@ public class PlayerInfo {
 	public PlayerInfo() {
 	}
 	public void topPlayer() {
-		
+		TreeMap<String, TreeMap<String, Integer>> playersStats = MemberDAO.getInstance().sortPlayers();
+		System.out.println(playersStats.get("Jikwang123").get("Count"));
+		//트리맵안에트리맵.... 
 	}
 	public void totalPlayers() {
 		int count = MemberDAO.getInstance().countPlayers();

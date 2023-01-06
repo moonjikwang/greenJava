@@ -42,7 +42,38 @@ public class MemberDAO {
 		return result;
 	}
 	//-------------------플레이어 카운트 끝 ---------------
-	
+	//-------------------전체 플레이어 승률---------------	//-------------------수정해야함. 여기이상함.---------------
+	//-------------------전체 플레이어 승률---------------
+	public TreeMap<String, TreeMap<String, Integer>> sortPlayers() { 
+	TreeMap<String, TreeMap<String, Integer>> stats = new TreeMap<String, TreeMap<String,Integer>>();
+	File[] fileList = folder.listFiles();
+	for(int i = 0; i < fileList.length; i++) {
+		stats.put(fileList[i].getName().substring(0, fileList[i].getName().length()-4), sortPlayersSub(fileList[i].getName()));
+	}
+return stats;
+}
+	//-------------------전체 플레이어 승률---------------
+	public TreeMap<String, Integer> sortPlayersSub(String id) { // 메서드실행시 TreeMap을 리턴합니다. 구조는 {Count=4, Draw=2,
+		// Lose=1, Win=1}
+String[] key = { "Win", "Lose", "Draw", "Count" };
+TreeMap<String, Integer> stats = new TreeMap<String, Integer>();
+File file = new File(rootFolder, id);
+try {
+br = new BufferedReader(new FileReader(file));
+String temp = null;
+while ((temp = br.readLine()) != null) {
+for (int i = 0; i < key.length; i++) {
+if (temp.startsWith(key[i])) {
+int data = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+stats.put(key[i], data);
+}
+}
+}
+} catch (Exception e) {
+}
+return stats;
+}
+//-------------------전체 플레이어 승률---------------	//-------------------수정해야함. 여기이상함.---------------
 	// ------------------------ 회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
 		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
@@ -141,18 +172,6 @@ public class MemberDAO {
 		return stats;
 	}
 	// ------------------------전적 조회 메서드 끝 ------------------------
-	
-	// ------------------------로그아웃 메서드 ------------------------
-	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
-		String id = divideId(member.getEmail());
-		String[] key = { "Win", "Lose", "Draw", "Count" };
-		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
-		cover("LastLogOut", date, id);
-		for (int i = 0; i < key.length; i++) {
-			coverStats(key[i], newData[i], id);
-		}
-	}
-	// ------------------------로그아웃 메서드 끝------------------------
 
 	// --------------------------비밀번호 변경 메서드--------------------------
 	public int changePw(String nowPassword) {
@@ -207,6 +226,20 @@ public class MemberDAO {
 	}
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
+	// ------------------------로그아웃 메서드 ------------------------
+	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
+		String id = divideId(member.getEmail());
+		String[] key = { "Win", "Lose", "Draw", "Count" };
+		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
+		cover("LastLogOut", date, id);
+		for (int i = 0; i < key.length; i++) {
+			coverStats(key[i], newData[i], id);
+		}
+	}
+	// ------------------------로그아웃 메서드 끝------------------------
+	
+	
+	
 	// -----------------------아이디분리 메서드-------------------------------
 	public String divideId(String email) { // 이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
@@ -228,6 +261,7 @@ public class MemberDAO {
 						result = data;
 					}
 			}
+			br.close();
 		} catch (Exception e) {
 		}
 		return result;
