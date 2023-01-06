@@ -24,6 +24,10 @@ public class MemberDTO {
 		}
 		this.id = email.substring(0,email.indexOf('@'));
 	}
+	public MemberDTO(String email, String password, String lastLogIn) {
+		this(email, password)	;
+		this.lastLogIn = lastLogIn;
+	}
 	public String getPassword() {
 		return password;
 	}
