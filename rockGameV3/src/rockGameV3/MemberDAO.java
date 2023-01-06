@@ -195,4 +195,17 @@ public class MemberDAO {
 		
 	}
 	//----------------------로딩 메서드 끝 -----------------------
+	//----------------------로딩 메서드 -----------------------
+//		public void booting() {
+//			String[] msg = {".","`","`",".","`","`",".","\n`","."," "," "," "," ",".","`","\n "," "," ","`",".","`"};
+//			try {
+//				for(int i = 0; i <= msg.length-1; i++) {
+//					System.out.print(msg[i]);
+//					TimeUnit.MILLISECONDS.sleep(70);
+//				}
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		//----------------------로딩 메서드 끝 -----------------------
 }
