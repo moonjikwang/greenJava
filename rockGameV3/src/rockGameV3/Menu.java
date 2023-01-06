@@ -15,11 +15,11 @@ import java.util.Scanner;
 public class Menu {
 	static Scanner sc = new Scanner(System.in);
 	public Menu() {
+		MemberDAO.getInstance().booting();
 		showMenu();
 	}
 	
 	public void showMenu() {
-		MemberDAO.getInstance().loading();
 		System.out.println("안녕하세요 가위바위보 게임입니다.");
 		System.out.println("1.로그인하기 2.사용자계정생성 3.기타메뉴보기");
 		System.out.print(">");
@@ -32,6 +32,8 @@ public class Menu {
 		case 3:otherMenu();
 		break;
 		default:
+			System.out.println("잘못 입력하셨습니다.");
+			showMenu();
 			break;
 		}
 	}

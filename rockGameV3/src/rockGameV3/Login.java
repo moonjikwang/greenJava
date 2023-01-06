@@ -1,4 +1,6 @@
 package rockGameV3;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 /**
  * 
  * @author 백승연
@@ -20,10 +22,11 @@ public class Login {
 	
 	public Login() {
 		System.out.print("ID : ");
-		String Email = sc.next();
+		String email = sc.next();
 		System.out.print("PW : ");
 		String password = sc.next();
-		member = new MemberDTO(Email,password);
+		String date = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss").format(Calendar.getInstance().getTime());
+		member = new MemberDTO(email,password,date);
 		int logInVal = MemberDAO.getInstance().logIn(member);
 		switch (logInVal) {
 		case -1:
@@ -33,7 +36,7 @@ public class Login {
 			System.out.println("비밀번호가 틀렸습니다.");
 			break;
 		case 1:
-			System.out.println("로그인에 성공했습니다. "+Email+"님 반갑습니다.");
+			System.out.println("로그인에 성공했습니다. "+email+"님 반갑습니다.");
 			new GameMenu();
 			break;
 		default:

@@ -27,7 +27,7 @@ public class MemberDAO {
 	BufferedReader br;
 
 //---------------------필드선언 및 초기화 끝 --------------------
-	
+
 	// -----------------싱글톤 작업 --------------------
 	private MemberDAO() {
 	}
@@ -39,7 +39,7 @@ public class MemberDAO {
 
 	// ------------------------ 회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
-		int result = 0;// 결과값 flag.. 모두 OK 1, 예외 0
+		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
 
 		if (!folder.exists() || !folder.isDirectory())
 			folder.mkdir();
@@ -51,7 +51,7 @@ public class MemberDAO {
 					bw = new BufferedWriter(fw);
 					bw.write("Email:" + member.getEmail() + "\n");
 					bw.write("Password:" + member.getPassword() + "\n");
-					bw.write("LastLogin:" + member.getLastLogIn() + "\n");
+					bw.write("LastLogIn:" + member.getLastLogIn() + "\n");
 					bw.write("LastLogOut:" + member.getLastLogOut() + "\n");
 					bw.write("Win:" + member.getWin() + "\n");
 					bw.write("Lose:" + member.getLose() + "\n");
@@ -79,6 +79,7 @@ public class MemberDAO {
 		File[] fileList = folder.listFiles();
 		String id = divideId(member.getEmail());
 		String password = null;
+		String lastLogIn = member.getLastLogIn();
 		File thePlayer = null;
 		for (int i = 0; i < fileList.length; i++) {
 			thePlayer = fileList[i];
@@ -90,6 +91,7 @@ public class MemberDAO {
 		}
 		if (result == 0) {
 			try {
+				cover("LastLogIn", lastLogIn, id);
 				fr = new FileReader(thePlayer.getAbsolutePath());
 				br = new BufferedReader(fr);
 				String keySearch = null;
@@ -165,7 +167,7 @@ public class MemberDAO {
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
 	// -----------------------아이디분리 메서드-------------------------------
-	public String divideId(String email) {
+	public String divideId(String email) { // 이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
 		return id;
 	}
@@ -204,16 +206,47 @@ public class MemberDAO {
 	// ----------------------로딩 메서드 끝 -----------------------
 	// ----------------------로딩 메서드 -----------------------
 	public void booting() {
-		String[] msg = { ".", "`", "`", ".", "`", "`", ".", "\n`", ".", " ", " ", " ", " ", ".", "`", "\n ", " ", " ",
-				"`", ".", "`" };
+		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
 		try {
 			for (int i = 0; i <= msg.length - 1; i++) {
 				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(70);
+				TimeUnit.MILLISECONDS.sleep(200);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	// ----------------------로딩 메서드 끝 -----------------------
+
+	// 데이터 변경 메서드-----------------------------------------
+	public void cover(String key, String newData, String id) {
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String newFile = ""; // 새 계정정보 DB값을 담을 문자열
+			String temp;
+			while ((temp = br.readLine()) != null) {
+				if (temp.startsWith(key)) {
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + newData + "\n");
+					continue;
+				}
+				newFile += (temp + "\n");
+			}
+
+			fw = new FileWriter(file);
+			fw.write(newFile);
+
+			fw.close();
+			br.close();
+
+		} catch (Exception e) {
+		}
+	}
+	// 데이터 변경메서드 끝----------------------------------
+
+	public void logOut(MemberDTO member,String date) {//로그아웃 메서드.로그아웃 시간 체크해서저장해야함.
+		String id = divideId(member.getEmail());
+		cover("LastLogOut", date, id);
+		
+	}
 }
