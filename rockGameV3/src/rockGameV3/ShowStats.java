@@ -21,6 +21,7 @@ public class ShowStats {
 		System.out.println("승 : " + stats.get("Win"));
 		System.out.println("패 : " + stats.get("Lose"));
 		System.out.println("승률 : " + ((double)stats.get("Win") / stats.get("Count") * 100) + "%");
+		new GameMenu();
 	}
 
 }

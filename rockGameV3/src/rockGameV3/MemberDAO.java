@@ -34,7 +34,15 @@ public class MemberDAO {
 		return instance;
 	}
 	// -----------------싱글톤 작업끝 --------------------
-
+	
+	//-------------------플레이어 카운트 ---------------
+	public int countPlayers() {
+		File[] fileList = folder.listFiles();
+		int result = fileList.length;
+		return result;
+	}
+	//-------------------플레이어 카운트 끝 ---------------
+	
 	// ------------------------ 회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
 		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
@@ -59,7 +67,6 @@ public class MemberDAO {
 					result = 1;
 					bw.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					System.out.println(e.getMessage());
 				}
 
@@ -133,7 +140,8 @@ public class MemberDAO {
 		}
 		return stats;
 	}
-
+	// ------------------------전적 조회 메서드 끝 ------------------------
+	
 	// ------------------------로그아웃 메서드 ------------------------
 	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
 		String id = divideId(member.getEmail());
@@ -205,51 +213,26 @@ public class MemberDAO {
 		return id;
 	}
 	// -----------------------아이디분리 메서드 끝------------------------------
-
-	// ----------------------로딩 메서드 -----------------------
-	public void loading() {
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				System.out.print("Loading");
-				for (int i = 0; i <= 5; i++) {
-					System.out.print(".");
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+	
+	//------------------------데이터조회  메서드  ------------------------
+	public String dataSearch(MemberDTO member,String key) { //멤버정보, 검색하고자하는 MemberDTO의 멤버필드를 입력하면 리턴해줍니다.
+		String result = null;
+		String id = divideId(member.getEmail());
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String temp = null;
+			while ((temp = br.readLine()) != null) {
+					if (temp.startsWith(key)) {
+						String data = temp.substring(temp.indexOf(":") + 1, temp.length());
+						result = data;
 					}
-				}
-				System.out.print("Ok!");
-				System.out.println();
-
-				super.run();
 			}
-		};
-		thread.start();
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
 		}
-
+		return result;
 	}
-
-	// ----------------------로딩 메서드 끝 -----------------------
-	// ----------------------부팅 메서드 -----------------------
-	public void booting() {
-		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
-		try {
-			for (int i = 0; i <= msg.length - 1; i++) {
-				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(200);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	// ----------------------부팅 메서드 끝 -----------------------
+	//------------------------데이터조회  메서드 끝  ------------------------
 
 	// 데이터 변경 메서드-----------------------------------------
 	public void cover(String key, String newData, String id) {
@@ -303,4 +286,51 @@ public class MemberDAO {
 		}
 	}
 	// 전적데이터 변경메서드 끝----------------------------------
+	
+	
+	
+	
+	// ----------------------로딩 메서드 -----------------------
+	public void loading() {
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				System.out.print("Loading");
+				for (int i = 0; i <= 5; i++) {
+					System.out.print(".");
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.print("Ok!");
+				System.out.println();
+
+				super.run();
+			}
+		};
+		thread.start();
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// ----------------------로딩 메서드 끝 -----------------------
+	// ----------------------부팅 메서드 -----------------------
+	public void booting() {
+		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
+		try {
+			for (int i = 0; i <= msg.length - 1; i++) {
+				System.out.print(msg[i]);
+				TimeUnit.MILLISECONDS.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	// ----------------------부팅 메서드 끝 -----------------------
 }
