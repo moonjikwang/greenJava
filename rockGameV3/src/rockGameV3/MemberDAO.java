@@ -26,7 +26,7 @@ public class MemberDAO {
 	FileReader fr;
 	BufferedReader br;
 //---------------------필드선언 및 초기화 끝 --------------------
-	
+	//브랜치 테스트
 	//-----------------싱글톤 작업 --------------------
 	private MemberDAO() {
 	}
@@ -42,9 +42,8 @@ public class MemberDAO {
 
 		if (!folder.exists() || !folder.isDirectory())
 			folder.mkdir();
-		
 		File newMember = new File(folder, member.getId() + ".dat");// Parent Folder 하위에 생성할 사용자 Email 정보 획득..
-
+		if(!newMember.exists()) {
 		if (br == null && fw == null) {
 			try {
 				fw = new FileWriter(newMember);
@@ -65,6 +64,7 @@ public class MemberDAO {
 				System.out.println(e.getMessage());
 			}
 			
+		}
 		}
 		loading();
 		return result;
