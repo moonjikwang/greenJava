@@ -11,23 +11,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class MemberDAO {
 //---------------------필드선언 및 초기화 --------------------
 	private static MemberDAO instance = new MemberDAO();
-	private MemberDTO member;
 	private static String rootFolder = "Members/";
 	private static File folder = new File(rootFolder);
-	private static Scanner sc = new Scanner(System.in);
 	FileWriter fw;
 	BufferedWriter bw;
 	FileReader fr;
 	BufferedReader br;
 
 //---------------------필드선언 및 초기화 끝 --------------------
-	
+
 	// -----------------싱글톤 작업 --------------------
 	private MemberDAO() {
 	}
@@ -91,7 +89,7 @@ public class MemberDAO {
 		}
 		if (result == 0) {
 			try {
-				cover("LastLogIn",lastLogIn,id);
+				cover("LastLogIn", lastLogIn, id);
 				fr = new FileReader(thePlayer.getAbsolutePath());
 				br = new BufferedReader(fr);
 				String keySearch = null;
@@ -112,6 +110,41 @@ public class MemberDAO {
 		return result;
 	}
 	// ------------------------로그인 메서드 끝------------------------
+
+	// ------------------------전적 조회 메서드 ------------------------
+	public TreeMap<String, Integer> myStats(MemberDTO member) { // 메서드실행시 TreeMap을 리턴합니다. 구조는 {Count=4, Draw=2,
+																	// Lose=1, Win=1}
+		String[] key = { "Win", "Lose", "Draw", "Count" };
+		TreeMap<String, Integer> stats = new TreeMap<String, Integer>();
+		String id = divideId(member.getEmail());
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String temp = null;
+			while ((temp = br.readLine()) != null) {
+				for (int i = 0; i < key.length; i++) {
+					if (temp.startsWith(key[i])) {
+						int data = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+						stats.put(key[i], data);
+					}
+				}
+			}
+		} catch (Exception e) {
+		}
+		return stats;
+	}
+
+	// ------------------------로그아웃 메서드 ------------------------
+	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
+		String id = divideId(member.getEmail());
+		String[] key = { "Win", "Lose", "Draw", "Count" };
+		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
+		cover("LastLogOut", date, id);
+		for (int i = 0; i < key.length; i++) {
+			coverStats(key[i], newData[i], id);
+		}
+	}
+	// ------------------------로그아웃 메서드 끝------------------------
 
 	// --------------------------비밀번호 변경 메서드--------------------------
 	public int changePw(String nowPassword) {
@@ -167,7 +200,7 @@ public class MemberDAO {
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
 	// -----------------------아이디분리 메서드-------------------------------
-	public String divideId(String email) { //이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
+	public String divideId(String email) { // 이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
 		return id;
 	}
@@ -204,9 +237,9 @@ public class MemberDAO {
 	}
 
 	// ----------------------로딩 메서드 끝 -----------------------
-	// ----------------------로딩 메서드 -----------------------
+	// ----------------------부팅 메서드 -----------------------
 	public void booting() {
-		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n"};
+		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
 		try {
 			for (int i = 0; i <= msg.length - 1; i++) {
 				System.out.print(msg[i]);
@@ -216,10 +249,10 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
-	// ----------------------로딩 메서드 끝 -----------------------
-	
+	// ----------------------부팅 메서드 끝 -----------------------
+
 	// 데이터 변경 메서드-----------------------------------------
-	public void cover(String key,String newData,String id) {
+	public void cover(String key, String newData, String id) {
 		File file = new File(rootFolder, id);
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -242,5 +275,32 @@ public class MemberDAO {
 		} catch (Exception e) {
 		}
 	}
-	//데이터 변경메서드 끝----------------------------------
+	// 데이터 변경메서드 끝----------------------------------
+
+	// 전적데이터 변경 메서드-----------------------------------------
+	public void coverStats(String key, int newData, String id) {
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String newFile = ""; // 새 계정정보 DB값을 담을 문자열
+			String temp;
+			while ((temp = br.readLine()) != null) {
+				if (temp.startsWith(key)) {
+					int oldData = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (oldData + newData) + "\n");
+					continue;
+				}
+				newFile += (temp + "\n");
+			}
+
+			fw = new FileWriter(file);
+			fw.write(newFile);
+
+			fw.close();
+			br.close();
+
+		} catch (Exception e) {
+		}
+	}
+	// 전적데이터 변경메서드 끝----------------------------------
 }
