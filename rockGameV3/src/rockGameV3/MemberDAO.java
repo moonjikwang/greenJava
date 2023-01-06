@@ -110,10 +110,11 @@ public class MemberDAO {
 		return result;
 	}
 	// ------------------------로그인 메서드 끝------------------------
-	
+
 	// ------------------------전적 조회 메서드 ------------------------
-	public TreeMap<String, Integer> memberWin(MemberDTO member) { //메서드실행시 TreeMap을 리턴합니다. 구조는 {Count=4, Draw=2, Lose=1, Win=1}
-		String[] key = {"Win","Lose","Draw","Count"};
+	public TreeMap<String, Integer> myStats(MemberDTO member) { // 메서드실행시 TreeMap을 리턴합니다. 구조는 {Count=4, Draw=2,
+																	// Lose=1, Win=1}
+		String[] key = { "Win", "Lose", "Draw", "Count" };
 		TreeMap<String, Integer> stats = new TreeMap<String, Integer>();
 		String id = divideId(member.getEmail());
 		File file = new File(rootFolder, id);
@@ -121,30 +122,30 @@ public class MemberDAO {
 			br = new BufferedReader(new FileReader(file));
 			String temp = null;
 			while ((temp = br.readLine()) != null) {
-				for(int i = 0; i < key.length; i++) {
-				if (temp.startsWith(key[i])) {
-					int data = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
-					stats.put(key[i], data);
-				}
+				for (int i = 0; i < key.length; i++) {
+					if (temp.startsWith(key[i])) {
+						int data = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+						stats.put(key[i], data);
+					}
 				}
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return stats;
 	}
-	
+
 	// ------------------------로그아웃 메서드 ------------------------
-	public void logOut(MemberDTO member,String date) {//로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
+	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
 		String id = divideId(member.getEmail());
-		String[] key = {"Win","Lose","Draw","Count"};
-		int[] newData = {member.getWin(),member.getLose(),member.getDraw(),member.getCount()};
+		String[] key = { "Win", "Lose", "Draw", "Count" };
+		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
 		cover("LastLogOut", date, id);
-		for(int i = 0; i < key.length; i++) {
-		coverStats(key[i], newData[i], id);
+		for (int i = 0; i < key.length; i++) {
+			coverStats(key[i], newData[i], id);
 		}
 	}
-	//------------------------로그아웃 메서드 끝------------------------
-	
+	// ------------------------로그아웃 메서드 끝------------------------
+
 	// --------------------------비밀번호 변경 메서드--------------------------
 	public int changePw(String nowPassword) {
 		int result = -1; // -1 기존패스워드 틀림 .
@@ -275,31 +276,31 @@ public class MemberDAO {
 		}
 	}
 	// 데이터 변경메서드 끝----------------------------------
-	
+
 	// 전적데이터 변경 메서드-----------------------------------------
-		public void coverStats(String key, int newData, String id) {
-			File file = new File(rootFolder, id);
-			try {
-				br = new BufferedReader(new FileReader(file));
-				String newFile = ""; // 새 계정정보 DB값을 담을 문자열
-				String temp;
-				while ((temp = br.readLine()) != null) {
-					if (temp.startsWith(key)) {
-						int oldData = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
-						newFile += (temp.substring(0, temp.indexOf(":") + 1) + (oldData+newData) + "\n");
-						continue;
-					}
-					newFile += (temp + "\n");
+	public void coverStats(String key, int newData, String id) {
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String newFile = ""; // 새 계정정보 DB값을 담을 문자열
+			String temp;
+			while ((temp = br.readLine()) != null) {
+				if (temp.startsWith(key)) {
+					int oldData = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (oldData + newData) + "\n");
+					continue;
 				}
-
-				fw = new FileWriter(file);
-				fw.write(newFile);
-
-				fw.close();
-				br.close();
-
-			} catch (Exception e) {
+				newFile += (temp + "\n");
 			}
+
+			fw = new FileWriter(file);
+			fw.write(newFile);
+
+			fw.close();
+			br.close();
+
+		} catch (Exception e) {
 		}
-		// 전적데이터 변경메서드 끝----------------------------------
+	}
+	// 전적데이터 변경메서드 끝----------------------------------
 }
