@@ -1,4 +1,9 @@
 package rockGameV3;
+/**
+ * 
+ * @author 박수현
+ *
+ */
 
 import java.util.Scanner;
 

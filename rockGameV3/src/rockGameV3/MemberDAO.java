@@ -1,5 +1,9 @@
 package rockGameV3;
-
+/**
+ * 
+ * @author 문지광
+ *
+ */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -68,9 +72,9 @@ public class MemberDAO {
 	//------------------------ 회원가입메서드 끝 ------------------------
 
 	//------------------------로그인 메서드------------------------
-	public int logIn(MemberDTO member) {
+	public int logIn(MemberDTO member) {//  입력한 이메일이없으면 -1, 비밀번호 틀리면 0 , 정상로그인이면 1을 리턴합니다.
 		System.out.print("멤버파일 ->");
-		int result = -1; // ID 없음, 0 Pass 틀림, 1 OK
+		int result = -1; 
 		File[] fileList = folder.listFiles();
 		String id = divideId(member.getEmail());
 		String password = null;
@@ -196,16 +200,16 @@ public class MemberDAO {
 	}
 	//----------------------로딩 메서드 끝 -----------------------
 	//----------------------로딩 메서드 -----------------------
-//		public void booting() {
-//			String[] msg = {".","`","`",".","`","`",".","\n`","."," "," "," "," ",".","`","\n "," "," ","`",".","`"};
-//			try {
-//				for(int i = 0; i <= msg.length-1; i++) {
-//					System.out.print(msg[i]);
-//					TimeUnit.MILLISECONDS.sleep(70);
-//				}
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		public void booting() {
+			String[] msg = {".","`","`",".","`","`",".","\n`","."," "," "," "," ",".","`","\n "," "," ","`",".","`"};
+			try {
+				for(int i = 0; i <= msg.length-1; i++) {
+					System.out.print(msg[i]);
+					TimeUnit.MILLISECONDS.sleep(70);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		//----------------------로딩 메서드 끝 -----------------------
 }

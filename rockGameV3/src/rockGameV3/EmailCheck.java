@@ -1,4 +1,9 @@
 package rockGameV3;
+/**
+ * 
+ * @author 백승연
+ *
+ */
 // 이메일 검증 클래스
 public class EmailCheck {
 	private String email;
