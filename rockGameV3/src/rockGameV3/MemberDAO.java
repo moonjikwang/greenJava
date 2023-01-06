@@ -51,7 +51,7 @@ public class MemberDAO {
 					bw = new BufferedWriter(fw);
 					bw.write("Email:" + member.getEmail() + "\n");
 					bw.write("Password:" + member.getPassword() + "\n");
-					bw.write("LastLogin:" + member.getLastLogIn() + "\n");
+					bw.write("LastLogIn:" + member.getLastLogIn() + "\n");
 					bw.write("LastLogOut:" + member.getLastLogOut() + "\n");
 					bw.write("Win:" + member.getWin() + "\n");
 					bw.write("Lose:" + member.getLose() + "\n");
@@ -79,6 +79,7 @@ public class MemberDAO {
 		File[] fileList = folder.listFiles();
 		String id = divideId(member.getEmail());
 		String password = null;
+		String lastLogIn = member.getLastLogIn();
 		File thePlayer = null;
 		for (int i = 0; i < fileList.length; i++) {
 			thePlayer = fileList[i];
@@ -90,6 +91,7 @@ public class MemberDAO {
 		}
 		if (result == 0) {
 			try {
+				cover("LastLogIn",lastLogIn,id);
 				fr = new FileReader(thePlayer.getAbsolutePath());
 				br = new BufferedReader(fr);
 				String keySearch = null;
@@ -215,4 +217,30 @@ public class MemberDAO {
 		}
 	}
 	// ----------------------로딩 메서드 끝 -----------------------
+	
+	// 데이터 변경 메서드-----------------------------------------
+	public void cover(String key,String newData,String id) {
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String newFile = ""; // 새 계정정보 DB값을 담을 문자열
+			String temp;
+			while ((temp = br.readLine()) != null) {
+				if (temp.startsWith(key)) {
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + newData + "\n");
+					continue;
+				}
+				newFile += (temp + "\n");
+			}
+
+			fw = new FileWriter(file);
+			fw.write(newFile);
+
+			fw.close();
+			br.close();
+
+		} catch (Exception e) {
+		}
+	}
+	//데이터 변경메서드 끝----------------------------------
 }
