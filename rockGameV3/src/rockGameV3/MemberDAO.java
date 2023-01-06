@@ -39,7 +39,7 @@ public class MemberDAO {
 
 	// ------------------------ 회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
-		int result = 0;// 결과값 flag.. 모두 OK 1, 예외 0
+		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
 
 		if (!folder.exists() || !folder.isDirectory())
 			folder.mkdir();
@@ -165,7 +165,7 @@ public class MemberDAO {
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
 	// -----------------------아이디분리 메서드-------------------------------
-	public String divideId(String email) {
+	public String divideId(String email) { //이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
 		return id;
 	}
@@ -204,12 +204,11 @@ public class MemberDAO {
 	// ----------------------로딩 메서드 끝 -----------------------
 	// ----------------------로딩 메서드 -----------------------
 	public void booting() {
-		String[] msg = { ".", "`", "`", ".", "`", "`", ".", "\n`", ".", " ", " ", " ", " ", ".", "`", "\n ", " ", " ",
-				"`", ".", "`" };
+		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n"};
 		try {
 			for (int i = 0; i <= msg.length - 1; i++) {
 				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(70);
+				TimeUnit.MILLISECONDS.sleep(200);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
