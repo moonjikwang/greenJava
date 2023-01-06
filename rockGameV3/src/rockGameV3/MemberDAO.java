@@ -26,7 +26,7 @@ public class MemberDAO {
 	FileReader fr;
 	BufferedReader br;
 //---------------------필드선언 및 초기화 끝 --------------------
-	
+	//브랜치 테스트
 	//-----------------싱글톤 작업 --------------------
 	private MemberDAO() {
 	}
