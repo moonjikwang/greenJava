@@ -1,5 +1,9 @@
 package rockGameV3;
-
+/**
+ * 
+ * @author 문지광
+ *
+ */
 public class MemberDTO {
 	private String email;
 	private String id;
