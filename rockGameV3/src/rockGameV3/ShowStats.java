@@ -9,5 +9,5 @@ package rockGameV3;
  * 해당사용자의 누적 전적을 출력하고 게임을 종료합니다.
  */
 public class ShowStats {
-dsfdsdfsdf
+
 }
