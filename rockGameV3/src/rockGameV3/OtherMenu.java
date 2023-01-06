@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class OtherMenu {
 	static Scanner sc = new Scanner(System.in);
-	PlayerInfo info = new PlayerInfo();
+	PlayerInfo info = null;
 
 	public OtherMenu() {
 		System.out.println("<기타메뉴>");
@@ -50,7 +50,8 @@ public class OtherMenu {
 		
 	}
 	private void totalPlayer() {
-		System.out.println("총플레이어 테스트");
+		System.out.println("플레이어 인풋 테스트");
+		info = new PlayerInfo();
 		
 	}
 }
