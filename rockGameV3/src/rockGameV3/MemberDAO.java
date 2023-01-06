@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 public class MemberDAO {
@@ -61,6 +62,7 @@ public class MemberDAO {
 				}
 			}
 		}
+		loading();
 		return result;
 	}
 	//------------------------ 회원가입메서드 끝 ------------------------
@@ -99,6 +101,7 @@ public class MemberDAO {
 			// TODO: handle exception
 		}
 		}
+		loading();
 		return result;
 	}
 	//------------------------로그인 메서드 끝------------------------
@@ -150,6 +153,7 @@ public class MemberDAO {
 		
 		}catch (Exception e) {
 		}
+		loading();
 		return result;
 	}
 	//--------------------------비밀번호 변경 메서드끝 --------------------------
@@ -161,4 +165,34 @@ public class MemberDAO {
 	}
 	//-----------------------아이디분리 메서드 끝------------------------------
 
+	//----------------------로딩 메서드 -----------------------
+	public void loading() {
+		Thread  thread = new Thread() {
+			@Override
+			public void run() {
+				System.out.print("Loading");
+				for(int i = 0;i <= 5; i++) {
+					System.out.print(".");
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.print("Ok!");
+				System.out.println();
+
+				super.run();
+			}
+		};
+		thread.start();
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	//----------------------로딩 메서드 끝 -----------------------
 }
