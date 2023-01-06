@@ -36,31 +36,31 @@ public class MemberDAO {
 	public int registerId(MemberDTO member) {
 		int result = 0;// 결과값 flag.. 모두 OK 1, 예외 0
 
-		if (!folder.exists() || !folder.isDirectory()) {
+		if (!folder.exists() || !folder.isDirectory())
 			folder.mkdir();
-		} else {
-			File newMember = new File(folder, member.getId() + ".dat");// Parent Folder 하위에 생성할 사용자 Email 정보 획득..
+		
+		File newMember = new File(folder, member.getId() + ".dat");// Parent Folder 하위에 생성할 사용자 Email 정보 획득..
 
-			if (br == null && fw == null) {
-				try {
-					fw = new FileWriter(newMember);
-					bw = new BufferedWriter(fw);
-					bw.write("Email:" + member.getEmail() + "\n");
-					bw.write("Password:" + member.getPassword() + "\n");
-					bw.write("LastLogin:" + member.getLastLogIn() + "\n");
-					bw.write("LastLogOut:" + member.getLastLogOut() + "\n");
-					bw.write("Win:" + member.getWin() + "\n");
-					bw.write("Lose:" + member.getLose() + "\n");
-					bw.write("Draw:" + member.getDraw() + "\n");
-					bw.write("Count:" + member.getCount() + "\n");
-					bw.close();
-					result = 1;
-					bw.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					System.out.println(e.getMessage());
-				}
+		if (br == null && fw == null) {
+			try {
+				fw = new FileWriter(newMember);
+				bw = new BufferedWriter(fw);
+				bw.write("Email:" + member.getEmail() + "\n");
+				bw.write("Password:" + member.getPassword() + "\n");
+				bw.write("LastLogin:" + member.getLastLogIn() + "\n");
+				bw.write("LastLogOut:" + member.getLastLogOut() + "\n");
+				bw.write("Win:" + member.getWin() + "\n");
+				bw.write("Lose:" + member.getLose() + "\n");
+				bw.write("Draw:" + member.getDraw() + "\n");
+				bw.write("Count:" + member.getCount() + "\n");
+				bw.close();
+				result = 1;
+				bw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
 			}
+			
 		}
 		loading();
 		return result;
