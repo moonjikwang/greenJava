@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class OtherMenu {
 	static Scanner sc = new Scanner(System.in);
-	PlayerInfo info = null;
+	PlayerInfo info = new PlayerInfo();
 
 	public OtherMenu() {
 		System.out.println("<기타메뉴>");
@@ -22,36 +22,19 @@ public class OtherMenu {
 		int select = sc.nextInt();
 		switch (select) {
 		case 1:
-			totalPlayer();
+			info.totalPlayer();
 			break;
 		case 2:
-			topPlayer();
+			info.topPlayer();
 			break;
 		case 3:
-			ascRank();
+			info.ascRank();
 			break;
 		case 4:
-			descRank();
+			info.descRank();
 			break;
 		default:
 			break;
 		}
-	}
-	private void descRank() {
-		// TODO Auto-generated method stub
-		
-	}
-	private void ascRank() {
-		// TODO Auto-generated method stub
-		
-	}
-	private void topPlayer() {
-		// TODO Auto-generated method stub
-		
-	}
-	private void totalPlayer() {
-		System.out.println("플레이어 인풋 테스트");
-		info = new PlayerInfo();
-		
 	}
 }
