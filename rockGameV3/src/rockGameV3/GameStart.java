@@ -70,6 +70,7 @@ public class GameStart {
 			case 2:
 				String date = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss").format(Calendar.getInstance().getTime());
 				MemberDAO.getInstance().logOut(member,date);
+				System.out.println("게임기록이 저장되었습니다. 안녕히 가세요~");
 				System.exit(0);
 				break;
 			default:

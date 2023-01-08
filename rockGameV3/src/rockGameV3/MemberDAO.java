@@ -23,26 +23,36 @@ public class MemberDAO {
 	BufferedWriter bw;
 	FileReader fr;
 	BufferedReader br;
-
 //---------------------필드선언 및 초기화 끝 --------------------
-
 	// -----------------싱글톤 작업 --------------------
 	private MemberDAO() {
 	}
-
 	public static MemberDAO getInstance() {
 		return instance;
 	}
 	// -----------------싱글톤 작업끝 --------------------
 	
-	//-------------------파일리스트 ---------------
+	//-------------------파일리스트 배열리턴 ---------------
 	public File[] fileList() {
 		File[] fileList = folder.listFiles();
 		return fileList;
 	}
-	//-------------------파일리스트  ---------------
+	//-------------------파일리스트 끝 ---------------
 	
-	// ------------------------ 회원가입메서드------------------------
+	public TreeMap<Integer, String> rateList() {
+		File[] fileList = fileList();
+		TreeMap<Integer, String> memberRate = new TreeMap<Integer, String>();
+		for(int i = 0; i < fileList.length; i++) {
+			String filename = fileList[i].toString();
+			String name = null;
+			name = filename.substring(8,filename.length()-4);
+			int rate = Integer.parseInt(fileSearch(fileList[i], "Rate"));
+			memberRate.put(rate, name);
+		}
+		return memberRate;
+	}
+	
+	// ------------------------회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
 		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
 
@@ -196,7 +206,7 @@ public class MemberDAO {
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
 	// ------------------------로그아웃 메서드 ------------------------
-	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
+	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 DB에업데이트함.
 		String id = divideId(member.getEmail());
 		String[] key = { "Win", "Lose", "Draw", "Count" };
 		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
@@ -211,16 +221,14 @@ public class MemberDAO {
 	}
 	// ------------------------로그아웃 메서드 끝------------------------
 	
-	
-	
-	// -----------------------아이디분리 메서드-------------------------------
+	// ----------------------이메일 ->파일명 변환 메서드-------------------------------
 	public String divideId(String email) { // 이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
 		return id;
 	}
-	// -----------------------아이디분리 메서드 끝------------------------------
+	// -----------------------이메일 ->파일명 변환 메서드 끝------------------------------
 	
-	//------------------------데이터조회  메서드  ------------------------
+	//------------------------회원데이터조회  메서드  ------------------------
 	public String dataSearch(MemberDTO member,String key) { //멤버정보, 검색하고자하는 MemberDTO의 멤버필드를 입력하면 리턴해줍니다.
 		String result = null;
 		String id = divideId(member.getEmail());
@@ -239,7 +247,26 @@ public class MemberDAO {
 		}
 		return result;
 	}
-	//------------------------데이터조회  메서드 끝  ------------------------
+	//------------------------회원데이터조회  메서드 끝  ------------------------
+	
+	//------------------------파일명기준 데이터조회  메서드  ------------------------
+	public String fileSearch(File file,String key) { //멤버정보, 검색하고자하는 MemberDTO의 멤버필드를 입력하면 리턴해줍니다.
+		String result = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String temp = null;
+			while ((temp = br.readLine()) != null) {
+					if (temp.startsWith(key)) {
+						String data = temp.substring(temp.indexOf(":") + 1, temp.length());
+						result = data;
+					}
+			}
+			br.close();
+		} catch (Exception e) {
+		}
+		return result;
+	}
+	//------------------------파일명기준 데이터조회  메서드 끝  ------------------------
 
 	// 데이터 변경 메서드-----------------------------------------
 	public void cover(String key, String newData, String id) {
