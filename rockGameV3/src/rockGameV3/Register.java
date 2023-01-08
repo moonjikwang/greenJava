@@ -32,7 +32,6 @@ public class Register {
 			System.out.println("회원가입이 완료되었습니다.");
 				new Menu();
 			} else {
-				// Yes 가 아닌 다른 경우는 일단 종료 시키는 로직으로 했으나 여러분이 다른걸로 바꿔보세요~
 				System.out.println("회원가입실패. 종료합니다.");
 				System.exit(0);
 			}
