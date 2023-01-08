@@ -4,8 +4,6 @@ package rockGameV3;
  * @author 이유현
  * 23.01.06 : 파일에서 내용을 읽어와서 트리맵으로 저장, 출력까지
  * 문제:
- * 파일 상대경로로 가져와야 함 -> 더 알아보기
- * 유저네임, 전적 계산까지 파일에 있어야함 ->요청하기
  * 
  * 남은과제: 출력하기 전에 소팅
  */
@@ -18,60 +16,97 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.LineNumberReader;
 import java.io.SequenceInputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
 public class PlayerInfo {
+//	File file = new File("D:\\YH\\git\\greenJava\\rockGameV3\\src\\rockGameV3\\users\\"); //상대경로 지정 방법 확인
 
-
-public PlayerInfo() {
-	File file = new File("D:\\YH\\git\\greenJava\\rockGameV3\\src\\rockGameV3\\users\\"); //상대경로 지정 방법 확인
+	File file = new File("Members/");
 	File[] filelist = file.listFiles();
 
 	String readData = null;
-	Map<String, String> infoMap = new TreeMap<String, String>();
-	Map<String, String> info = new TreeMap<String, String>();
+	TreeMap<String, String> infoMap = null;
+	TreeMap<String, String> info = null;
+	
+	TreeMap<String, String> desInfo = null;
+
+	
+	int rank = 0;
+
 	
 	
-	try {
-		
-		for (File f : filelist) {
-			InputStream fis = new FileInputStream(f);
-			BufferedReader br = new BufferedReader(new FileReader(f));
-			
-			while( (readData =  br.readLine() )!= null) {
-				String[] stat = readData.split(":");
+	public PlayerInfo() {
+		infoMap = new TreeMap<String, String>();
+		info = new TreeMap<String, String>();
+
+		try {
+
+			for (File f : filelist) {
+				InputStream fis = new FileInputStream(f);
+				BufferedReader br = new BufferedReader(new FileReader(f));
+
+				while ((readData = br.readLine()) != null) {
+					String[] stat = readData.split(":");
 //				System.out.println(stat[1].toString());
+
+					infoMap.put(stat[0], stat[1]);
+
+				}
+
+				info.put( infoMap.get("Win"), f.getName());
 				
-				infoMap.put(stat[0], stat[1]);
-				
+
+				br.close();
 			}
-			
-			info.put(f.getName(),infoMap.get("Win") );
-			
-			br.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		
-		//승률이 없으니 대신 승수로 로직 짜기
-		//유저 네임과 승수를 가져와서 매핑하고 승수를 기준으로 정렬
-		
-		for (Map.Entry<String, String> pair : info.entrySet()) {
-			 System.out.println(String.format("파일명: %s, 승수: %s", pair.getKey(), pair.getValue()));
-		}
-//		System.out.println(info.keySet().toString() +":"+ info.values().toString());
-		
-		
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	} catch (IOException e) {
-		e.printStackTrace();
 	}
-}
-	
-	
+
+	public void totalPlayer() {
+		// 승률이 없으니 대신 승수로 로직 짜기
+		// 유저 네임과 승수를 가져와서 매핑하고 승수를 기준으로 정렬
+
+		
+	}
+
+	public void topPlayer() {
+		System.out.println( "현재 1위 플레이어 " + info.get(info.lastKey()) +"님 ( 승률 : " + info.lastKey() +" )");
+	}
+
+	public void ascRank() {
+		System.out.println("3.승률꼴지부터보기");
+
+		for (Map.Entry<String, String> pair : info.entrySet()) {
+			rank++;
+			System.out.println(String.format(rank + "위... %s님, 승률: %s", pair.getValue(), pair.getKey()));
+			
+		}
+		
+	}
+
+	public void descRank() {
+		System.out.println("4.승률1위부터보기");
+
+		for (Map.Entry<String, String> pair : info.descendingMap().entrySet()) {
+			rank++;
+			System.out.println(String.format(rank + "위... %s님, 승률: %s" , pair.getValue(), pair.getKey()));
+			
+		}
+	}
+
 }
