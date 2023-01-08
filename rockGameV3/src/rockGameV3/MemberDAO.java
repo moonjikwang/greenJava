@@ -34,7 +34,46 @@ public class MemberDAO {
 		return instance;
 	}
 	// -----------------싱글톤 작업끝 --------------------
-
+	
+	//-------------------플레이어 카운트 ---------------
+	public int countPlayers() {
+		File[] fileList = folder.listFiles();
+		int result = fileList.length;
+		return result;
+	}
+	//-------------------플레이어 카운트 끝 ---------------
+	//-------------------전체 플레이어 승률---------------	//-------------------수정해야함. 여기이상함.---------------
+	//-------------------전체 플레이어 승률---------------
+	public TreeMap<String, TreeMap<String, Integer>> sortPlayers() { 
+	TreeMap<String, TreeMap<String, Integer>> stats = new TreeMap<String, TreeMap<String,Integer>>();
+	File[] fileList = folder.listFiles();
+	for(int i = 0; i < fileList.length; i++) {
+		stats.put(fileList[i].getName().substring(0, fileList[i].getName().length()-4), sortPlayersSub(fileList[i].getName()));
+	}
+return stats;
+}
+	//-------------------전체 플레이어 승률---------------
+	public TreeMap<String, Integer> sortPlayersSub(String id) { // 메서드실행시 TreeMap을 리턴합니다. 구조는 {Count=4, Draw=2,
+		// Lose=1, Win=1}
+String[] key = { "Win", "Lose", "Draw", "Count" };
+TreeMap<String, Integer> stats = new TreeMap<String, Integer>();
+File file = new File(rootFolder, id);
+try {
+br = new BufferedReader(new FileReader(file));
+String temp = null;
+while ((temp = br.readLine()) != null) {
+for (int i = 0; i < key.length; i++) {
+if (temp.startsWith(key[i])) {
+int data = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
+stats.put(key[i], data);
+}
+}
+}
+} catch (Exception e) {
+}
+return stats;
+}
+//-------------------전체 플레이어 승률---------------	//-------------------수정해야함. 여기이상함.---------------
 	// ------------------------ 회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
 		int result = 0;// 문제없이 회원가입성공시 1을 리턴, 문제발생시 0을 리턴합니다.
@@ -55,11 +94,11 @@ public class MemberDAO {
 					bw.write("Lose:" + member.getLose() + "\n");
 					bw.write("Draw:" + member.getDraw() + "\n");
 					bw.write("Count:" + member.getCount() + "\n");
+					bw.write("Rate:" + member.getRate() + "\n");
 					bw.close();
 					result = 1;
 					bw.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					System.out.println(e.getMessage());
 				}
 
@@ -133,18 +172,7 @@ public class MemberDAO {
 		}
 		return stats;
 	}
-
-	// ------------------------로그아웃 메서드 ------------------------
-	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
-		String id = divideId(member.getEmail());
-		String[] key = { "Win", "Lose", "Draw", "Count" };
-		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
-		cover("LastLogOut", date, id);
-		for (int i = 0; i < key.length; i++) {
-			coverStats(key[i], newData[i], id);
-		}
-	}
-	// ------------------------로그아웃 메서드 끝------------------------
+	// ------------------------전적 조회 메서드 끝 ------------------------
 
 	// --------------------------비밀번호 변경 메서드--------------------------
 	public int changePw(String nowPassword) {
@@ -199,57 +227,51 @@ public class MemberDAO {
 	}
 	// --------------------------비밀번호 변경 메서드끝 --------------------------
 
+	// ------------------------로그아웃 메서드 ------------------------
+	public void logOut(MemberDTO member, String date) {// 로그아웃 메서드.로그아웃시간과 게임기록을 db에업데이트함.
+		String id = divideId(member.getEmail());
+		String[] key = { "Win", "Lose", "Draw", "Count" };
+		int[] newData = { member.getWin(), member.getLose(), member.getDraw(), member.getCount() };
+		cover("LastLogOut", date, id);
+		for (int i = 0; i < key.length; i++) {
+			coverStats(key[i], newData[i], id);
+		}
+		//승률 계산 적용
+		TreeMap<String, Integer> stats = myStats(member);
+		int rate = (int)((double)stats.get("Win") / stats.get("Count") * 100);
+		coverStats("Rate", rate, id);
+	}
+	// ------------------------로그아웃 메서드 끝------------------------
+	
+	
+	
 	// -----------------------아이디분리 메서드-------------------------------
 	public String divideId(String email) { // 이메일을 넣으면 아이디만 분리해서 리턴해줍니다.
 		String id = email.substring(0, email.indexOf('@')) + ".dat";
 		return id;
 	}
 	// -----------------------아이디분리 메서드 끝------------------------------
-
-	// ----------------------로딩 메서드 -----------------------
-	public void loading() {
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				System.out.print("Loading");
-				for (int i = 0; i <= 5; i++) {
-					System.out.print(".");
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+	
+	//------------------------데이터조회  메서드  ------------------------
+	public String dataSearch(MemberDTO member,String key) { //멤버정보, 검색하고자하는 MemberDTO의 멤버필드를 입력하면 리턴해줍니다.
+		String result = null;
+		String id = divideId(member.getEmail());
+		File file = new File(rootFolder, id);
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String temp = null;
+			while ((temp = br.readLine()) != null) {
+					if (temp.startsWith(key)) {
+						String data = temp.substring(temp.indexOf(":") + 1, temp.length());
+						result = data;
 					}
-				}
-				System.out.print("Ok!");
-				System.out.println();
-
-				super.run();
 			}
-		};
-		thread.start();
-		try {
-			TimeUnit.SECONDS.sleep(2);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			br.close();
+		} catch (Exception e) {
 		}
-
+		return result;
 	}
-
-	// ----------------------로딩 메서드 끝 -----------------------
-	// ----------------------부팅 메서드 -----------------------
-	public void booting() {
-		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
-		try {
-			for (int i = 0; i <= msg.length - 1; i++) {
-				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(200);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	// ----------------------부팅 메서드 끝 -----------------------
+	//------------------------데이터조회  메서드 끝  ------------------------
 
 	// 데이터 변경 메서드-----------------------------------------
 	public void cover(String key, String newData, String id) {
@@ -303,4 +325,51 @@ public class MemberDAO {
 		}
 	}
 	// 전적데이터 변경메서드 끝----------------------------------
+	
+	
+	
+	
+	// ----------------------로딩 메서드 -----------------------
+	public void loading() {
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				System.out.print("Loading");
+				for (int i = 0; i <= 5; i++) {
+					System.out.print(".");
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.print("Ok!");
+				System.out.println();
+
+				super.run();
+			}
+		};
+		thread.start();
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	// ----------------------로딩 메서드 끝 -----------------------
+	// ----------------------부팅 메서드 -----------------------
+	public void booting() {
+		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
+		try {
+			for (int i = 0; i <= msg.length - 1; i++) {
+				System.out.print(msg[i]);
+				TimeUnit.MILLISECONDS.sleep(200);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	// ----------------------부팅 메서드 끝 -----------------------
 }
