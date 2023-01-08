@@ -15,6 +15,7 @@ public class MemberDTO {
 	private int lose;
 	private int draw;
 	private int count;
+	private int rate;
 
 	public MemberDTO(String email, String password) {
 		this.email = email;
@@ -101,6 +102,13 @@ public class MemberDTO {
 
 	public void setLastLogOut(String lastLogOut) {
 		this.lastLogOut = lastLogOut;
+	}
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 
 }

@@ -94,6 +94,7 @@ return stats;
 					bw.write("Lose:" + member.getLose() + "\n");
 					bw.write("Draw:" + member.getDraw() + "\n");
 					bw.write("Count:" + member.getCount() + "\n");
+					bw.write("Rate:" + member.getRate() + "\n");
 					bw.close();
 					result = 1;
 					bw.close();
@@ -235,6 +236,10 @@ return stats;
 		for (int i = 0; i < key.length; i++) {
 			coverStats(key[i], newData[i], id);
 		}
+		//승률 계산 적용
+		TreeMap<String, Integer> stats = myStats(member);
+		int rate = (int)((double)stats.get("Win") / stats.get("Count") * 100);
+		coverStats("Rate", rate, id);
 	}
 	// ------------------------로그아웃 메서드 끝------------------------
 	
