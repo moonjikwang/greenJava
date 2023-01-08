@@ -1,5 +1,6 @@
 package rockGameV3;
 
+import java.io.File;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -18,8 +19,10 @@ public class PlayerInfo {
 		//트리맵안에트리맵.... 
 	}
 	public void totalPlayers() {
-		int count = MemberDAO.getInstance().countPlayers();
+		File[] fileList = MemberDAO.getInstance().fileList();
+		int count = fileList.length;
 		System.out.println("총 이용자수는 " + count + "명 입니다.");
+		
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {

@@ -36,10 +36,9 @@ public class MemberDAO {
 	// -----------------싱글톤 작업끝 --------------------
 	
 	//-------------------플레이어 카운트 ---------------
-	public int countPlayers() {
+	public File[] fileList() {
 		File[] fileList = folder.listFiles();
-		int result = fileList.length;
-		return result;
+		return fileList;
 	}
 	//-------------------플레이어 카운트 끝 ---------------
 	//-------------------전체 플레이어 승률---------------	//-------------------수정해야함. 여기이상함.---------------
