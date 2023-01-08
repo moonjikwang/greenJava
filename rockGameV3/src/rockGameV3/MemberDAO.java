@@ -39,6 +39,7 @@ public class MemberDAO {
 	}
 	//-------------------파일리스트 끝 ---------------
 	
+	//-----------------회원 승률 리스트 -----------------
 	public TreeMap<Integer, String> rateList() {
 		File[] fileList = fileList();
 		TreeMap<Integer, String> memberRate = new TreeMap<Integer, String>();
@@ -51,6 +52,7 @@ public class MemberDAO {
 		}
 		return memberRate;
 	}
+	//-----------------회원 승률 리스트  끝-----------------
 	
 	// ------------------------회원가입메서드------------------------
 	public int registerId(MemberDTO member) {
