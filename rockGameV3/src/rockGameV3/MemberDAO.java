@@ -91,20 +91,22 @@ public class MemberDAO {
 
 	// ------------------------로그인 메서드------------------------
 	public int logIn(MemberDTO member) {// 입력한 이메일이없으면 -1, 비밀번호 틀리면 0 , 정상로그인이면 1을 리턴합니다.
-		System.out.print("멤버파일 ->");
 		int result = -1;
 		File[] fileList = folder.listFiles();
 		String id = divideId(member.getEmail());
 		String password = null;
 		String lastLogIn = member.getLastLogIn();
 		File thePlayer = null;
+		try {
 		for (int i = 0; i < fileList.length; i++) {
 			thePlayer = fileList[i];
-			System.out.println(thePlayer.getName());
 			if (thePlayer.getName().equals(id)) {
 				result = 0;
 				break;
 			}
+		}
+		}catch (NullPointerException e) {
+			e.getMessage();
 		}
 		if (result == 0) {
 			try {
@@ -362,7 +364,7 @@ public class MemberDAO {
 		try {
 			for (int i = 0; i <= msg.length - 1; i++) {
 				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(200);
+				TimeUnit.MILLISECONDS.sleep(100);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
