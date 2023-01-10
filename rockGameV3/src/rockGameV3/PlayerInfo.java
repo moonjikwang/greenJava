@@ -51,7 +51,7 @@ public class PlayerInfo {
 
 		for (Entry<Integer, String> pair : info.entrySet()) {
 			rank++;
-			System.out.println(String.format(rank + "위... %s***님, 승률: %s", pair.getValue().substring(0, pair.getValue().length()-3), pair.getKey()));
+			System.out.println(String.format(rank + "위... %s***님, 승률: %s", pair.getValue().substring(0, pair.getValue().length()-3), pair.getKey())+"%");
 		}
 		new OtherMenu();
 	}
@@ -62,7 +62,7 @@ public class PlayerInfo {
 
 		for (Entry<Integer, String> pair : info.descendingMap().entrySet()) {
 			rank++;
-			System.out.println(String.format(rank + "위... %s***님, 승률: %s" , pair.getValue().substring(0, pair.getValue().length()-3), pair.getKey()));
+			System.out.println(String.format(rank + "위... %s***님, 승률: %s" , pair.getValue().substring(0, pair.getValue().length()-3), pair.getKey())+"%");
 		}
 		new OtherMenu();
 	}
