@@ -34,6 +34,7 @@ public class OtherMenu {
 			info.descRank();
 			break;
 		case 5:
+			System.out.println("안녕히 가세요~");
 			System.exit(0);
 			break;
 			
