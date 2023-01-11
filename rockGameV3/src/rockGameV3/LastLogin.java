@@ -1,4 +1,6 @@
 package rockGameV3;
+
+
 /**
  * 
  * @author 박수현
@@ -9,5 +11,9 @@ package rockGameV3;
  * 해당 사용자의 마지막 로그인날짜를 출력하고 다시 게임메뉴를 호출합니다.
  */
 public class LastLogin {
-
+	
+	public LastLogin() {
+	String Last = MemberDAO.getInstance().dataSearch(Login.member, "LastLogOut");
+	System.out.println(Last);
+	}
 }
