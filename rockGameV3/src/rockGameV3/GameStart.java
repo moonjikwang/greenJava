@@ -74,7 +74,7 @@ public class GameStart {
 					System.out.println("잘못입력하셨습니다.다시입력하세요");
 					break;	
 			}
-			}while(newGame != 1 && newGame != 2);
+			}while(newGame != 1 && newGame != 2);//
 		}
 	}
 
