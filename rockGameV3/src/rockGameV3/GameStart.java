@@ -55,7 +55,7 @@ public class GameStart {
 				member.setLose(member.getLose() + 1);
 			}
 			member.setCount(member.getLose() + 1);		
-			System.out.println(result + "( 컴퓨터 : "+selectCom + "사용자 : " +selectUser);
+			System.out.println("결과: "+ result  + "( 컴퓨터 : "+selectCom +  ", 사용자 : " +selectUser+" )");
 			
 			do {
 				System.out.println("1.NEW게임 2.게임종료");
