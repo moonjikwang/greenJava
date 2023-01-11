@@ -97,12 +97,16 @@ public class MemberDAO {
 		String password = null;
 		String lastLogIn = member.getLastLogIn();
 		File thePlayer = null;
+		try {
 		for (int i = 0; i < fileList.length; i++) {
 			thePlayer = fileList[i];
 			if (thePlayer.getName().equals(id)) {
 				result = 0;
 				break;
 			}
+		}
+		} catch (Exception e) {
+			System.out.println("로그인 예외 발생 :" + e.getMessage() );
 		}
 		if (result == 0) {
 			try {
