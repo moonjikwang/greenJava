@@ -53,12 +53,11 @@ public class Login {
 		switch (logInVal) {
 		case -1:
 			// 아이디 없으면 -> 회원가입해주세요, Register() 클래스호출
-			if (email == null) {
-				System.out.println("해당 아이디는 없습니다.");
+				System.out.println("해당 아이디는 없습니다. 회원가입을 진행합니다.");
 				new Register();
-			}
 			break;
 		case 0:
+			temp++;
 			// 비번틀림, 3회기회 -> 관리자에게 연락바랍니다(프로그램종료)
 			if (temp < 3) {
 				System.out.println("비밀번호가 틀렸습니다." + temp + "회 시도중");
