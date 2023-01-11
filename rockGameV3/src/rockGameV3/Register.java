@@ -19,10 +19,15 @@ public class Register {
 	}
 	//회원가입 후 다시 Menu 호출 
 	public void emailCheck() {
-		System.out.println("[회원가입] 이메일을 입력해주세요.");
-		System.out.print(">");
-		email = sc.next();
-		Validate(email);
+		boolean flag = false;
+		do {
+			if(flag) System.out.println("이미 존재하는 계정입니다.");
+			System.out.println("[회원가입] 이메일을 입력해주세요.");
+			System.out.print(">");
+			email = sc.next();
+			Validate(email);
+			flag = true;
+		}while(MemberDAO.getInstance().duplicateVal(email) == -1);
 		System.out.println("[회원가입] 패스워드를 입력해주세요.");
 		System.out.print(">");
 		password = sc.next();
