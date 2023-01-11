@@ -1,5 +1,7 @@
 package rockGameV3;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
 
 /**
@@ -27,5 +29,53 @@ public class GameStart {
 		String result = null;
 		String selectUser = null;
 		int newGame = 0;
+		// --------------------게임시작 종료하기전까지 반복--------------
+		while (true) {
+			boolean flag = false;
+			do {
+				if (flag)
+					System.out.println("틀린값입니다. 다시입력해주세요.");
+				System.out.println("가위바위보 중에 입력하세요");
+				System.out.print(">");
+				selectUser = sc.next();
+				flag = true;
+			} while (!selectUser.equals("가위") && !selectUser.equals("바위") && !selectUser.equals("보"));
+
+			String[] com = { "가위", "바위", "보" };
+			selectCom = com[(int) (Math.random() * com.length)];
+			if (selectUser.equals("보") && selectCom.equals("바위") || selectUser.equals("가위") && selectCom.equals("보")
+					|| selectUser.equals("바위") && selectCom.equals("가위")) {
+				result = "축하합니다! 유저의 승리 ✿ܓ✿ܓ "; // 이기거나
+				member.setWin(member.getWin() + 1);
+			}else if(selectUser.equals(com)) {
+				result = "비겼습니다." ;     //비기거나
+				member.setDraw(member.getDraw() + 1);
+			}else{
+				result = "졌습니다." ; //졌습니다.
+				member.setLose(member.getLose() + 1);
+			}
+			member.setCount(member.getLose() + 1);		
+			System.out.println(result + "( 컴퓨터 : "+selectCom + "사용자 : " +selectUser);
+			
+			do {
+				System.out.println("1.NEW게임 2.게임종료");
+				System.out.print(">");
+				newGame = sc.nextInt();
+			switch(newGame)	{
+			case 1 :
+						break;
+			case 2 :
+						String date = new SimpleDateFormat("yyyy-MM--dd a hh:mm:ss").format(Calendar.getInstance().getTime());
+						MemberDAO.getInstance().logOut(member, date);
+						System.out.println("게임기록이 저장되었습니다.안녕히가세요.₍ᐢ.ˬ.ᐢ₎❤️");
+						System.exit(0);
+						break;
+			default :
+					System.out.println("잘못입력하셨습니다.다시입력하세요");
+					break;	
+			}
+			}while(newGame != 1 && newGame != 2);
+		}
 	}
+
 }
