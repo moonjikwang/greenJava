@@ -41,7 +41,7 @@ public class PlayerInfo {
 	
 	//--------------------- 현재 1위 플레이어 출력메서드 -----------------------
 	public void topPlayer() {
-		System.out.println( "현재 1위 플레이어 " + info.get(info.lastKey()).substring(0, info.get(info.lastKey()).length()-3) +"***님 ( 승률 : " + info.lastKey() +" )");
+		System.out.println( "현재 1위 플레이어 " + info.get(info.lastKey()).substring(0, info.get(info.lastKey()).length()-3) +"***님 ( 승률 : " + info.lastKey() +"% )");
 		new OtherMenu();
 	}
 	

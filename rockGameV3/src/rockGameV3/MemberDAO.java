@@ -220,7 +220,7 @@ public class MemberDAO {
 		}
 		//승률 계산 적용
 		TreeMap<String, Integer> stats = myStats(member);
-		int rate = (int)((double)stats.get("Win") / stats.get("Count") * 100);
+		int rate = (int) ((double)stats.get("Win") / stats.get("Count") * 100);
 		coverStats("Rate", rate, id);
 	}
 	// ------------------------로그아웃 메서드 끝------------------------
@@ -308,7 +308,7 @@ public class MemberDAO {
 			while ((temp = br.readLine()) != null) {
 				if (temp.startsWith(key)) {
 					int oldData = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
-					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (oldData + newData) + "\n");
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (key=="Rate"?newData:oldData + newData) + "\n");
 					continue;
 				}
 				newFile += (temp + "\n");
