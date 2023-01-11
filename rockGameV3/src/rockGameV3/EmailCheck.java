@@ -14,6 +14,7 @@ public class EmailCheck {
 	public void validate(String email) {
 		if(email.isEmpty() || email.indexOf('@') == -1) {
 			System.out.println("빈 문자열이거나 @가 없습니다.");
+			System.exit(0);
 		}
 		String id = email.substring(0,email.indexOf('@'));
 		String server = email.substring(email.indexOf('@'),email.length());
