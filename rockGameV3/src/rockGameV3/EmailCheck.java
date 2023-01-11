@@ -10,7 +10,7 @@ public class EmailCheck {
 
 	public EmailCheck(String email) {
 		validate(email);
-	}
+	} 
 	public void validate(String email) {
 		if(email.isEmpty() || email.indexOf('@') == -1) {
 			System.out.println("빈 문자열이거나 @가 없습니다.");
