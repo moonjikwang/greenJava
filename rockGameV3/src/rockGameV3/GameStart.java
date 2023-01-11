@@ -70,7 +70,7 @@ public class GameStart {
 						System.out.println("게임기록이 저장되었습니다.안녕히가세요.₍ᐢ.ˬ.ᐢ₎❤️");
 						System.exit(0);
 						break;
-			default :
+			default ://
 					System.out.println("잘못입력하셨습니다.다시입력하세요");
 					break;	
 			}
