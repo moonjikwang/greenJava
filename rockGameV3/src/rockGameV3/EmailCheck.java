@@ -27,7 +27,7 @@ public class EmailCheck {
 			System.out.println("아이디에는 숫자가 하나이상 들어가야합니다.");
 			System.exit(0);
 		}else {
-			System.out.println("이메일 검증완료");
+			
 		}
 		this.email = id + server;
 	}
