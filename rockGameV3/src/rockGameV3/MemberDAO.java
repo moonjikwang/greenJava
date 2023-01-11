@@ -105,8 +105,8 @@ public class MemberDAO {
 				break;
 			}
 		}
-		} catch (Exception e) {
-			System.out.println("로그인 예외 발생 :" + e.getMessage() );
+		}catch (NullPointerException e) {
+			e.getMessage();
 		}
 		if (result == 0) {
 			try {
@@ -360,11 +360,16 @@ public class MemberDAO {
 	// ----------------------로딩 메서드 끝 -----------------------
 	// ----------------------부팅 메서드 -----------------------
 	public void booting() {
+		System.out.print("˚∧＿∧  　+        —̳͟͞͞💗\r\n"
+				+ "(  •‿• )つ  —̳͟͞͞ 💗         —̳͟͞͞💗 +\r\n"
+				+ "(つ　 <                —̳͟͞͞💗\r\n"
+				+ "｜　 _つ      +  —̳͟͞͞💗         —̳͟͞͞💗 ˚\r\n"
+				+ "`し´");
 		String[] msg = { "가", "위", "바", "위", "보", " ", "게", "임", "V", "3", ".", ".\n" };
 		try {
 			for (int i = 0; i <= msg.length - 1; i++) {
 				System.out.print(msg[i]);
-				TimeUnit.MILLISECONDS.sleep(100);
+				TimeUnit.MILLISECONDS.sleep(150);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
