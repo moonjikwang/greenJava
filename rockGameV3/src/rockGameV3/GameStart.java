@@ -52,10 +52,10 @@ public class GameStart {
 				result = "축하합니다! 유저의 승리 ✿ܓ✿ܓ "; // 이기거나
 				member.setWin(member.getWin()+1);
 			} else if (selectUser.equals(selectCom)) {
-				result = "비겼습니다."; // 비기거나
+				result = "비겼습니다.ʕʘ̅͜ʘ̅̅ʔ" ;     //비기거나
 				member.setDraw(member.getDraw()+1);
 			} else {
-				result = "ㅜㅜ 컴퓨터의 승리 "; // 지거나
+				result = "졌습니다.(ुŏ̥̥̥̥םŏ̥̥̥̥) ु" ; //졌습니다.
 				member.setLose(member.getLose()+1);
 			}
 			member.setCount(member.getCount()+1); // 게임 카운트 + 1
@@ -65,7 +65,12 @@ public class GameStart {
 			System.out.println("│1.뉴게임 2.게임종료│");
 			System.out.println("└─────────────┘");
 			System.out.print(">>");
-			newGame = sc.nextInt();
+			try {
+				newGame = sc.nextInt();
+			} catch (Exception e) {
+				System.out.println("예외발생 : " + e.getMessage() + "\n 잘못 입력했습니다. 그냥 게임을 종료합니다.");
+				newGame = 2;
+			}
 			switch (newGame) {
 			case 1:
 				break;
