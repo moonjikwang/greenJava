@@ -40,16 +40,24 @@ public class MemberDAO {
 	//-------------------파일리스트 끝 ---------------
 	
 	//-----------------회원 승률 리스트 -----------------
-	public TreeMap<Integer, String> rateList() {
+	public TreeMap<String, Integer> rateList() {
 		File[] fileList = fileList();
-		TreeMap<Integer, String> memberRate = new TreeMap<Integer, String>();
+		TreeMap<String, Integer> memberRate = new TreeMap<String, Integer>();
+		try {
 		for(int i = 0; i < fileList.length; i++) {
 			String filename = fileList[i].toString();
 			String name = null;
 			name = filename.substring(8,filename.length()-4);
 			int rate = Integer.parseInt(fileSearch(fileList[i], "Rate"));
-			memberRate.put(rate, name);
+			memberRate.put(name, rate);
 		}
+		
+		}catch (Exception e) {
+			System.out.println("회원승률 리스트 취합 예외입니다. : " + e.getMessage());
+			System.out.println("회원리스트가 없습니다. 프로그램을 종료합니다.");
+			System.exit(0);
+		}
+
 		return memberRate;
 	}
 	//-----------------회원 승률 리스트  끝-----------------
@@ -75,7 +83,6 @@ public class MemberDAO {
 					bw.write("Draw:" + member.getDraw() + "\n");
 					bw.write("Count:" + member.getCount() + "\n");
 					bw.write("Rate:" + member.getRate() + "\n");
-					bw.close();
 					result = 1;
 					bw.close();
 				} catch (IOException e) {
@@ -376,4 +383,16 @@ public class MemberDAO {
 		}
 	}
 	// ----------------------부팅 메서드 끝 -----------------------
+	
+	// -----------------------이메일 중복검사 메서드  -----------------------
+	public int duplicateVal(String email) {// 이미 회원이 존재하면 -1을 리턴 .존재하지 않으면 1을 리턴
+		String fileName = divideId(email);
+		File newMember = new File(folder,fileName);
+		if(newMember.exists()) {
+			return -1;
+		}else return 1;
+		
+	}
+	// -----------------------이메일 중복검사 메서드 끝  -----------------------
+	
 }

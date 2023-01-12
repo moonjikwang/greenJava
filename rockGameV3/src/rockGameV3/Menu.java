@@ -21,8 +21,10 @@ public class Menu {
 	public void showMenu() {
 		MemberDAO.getInstance().booting();
 		System.out.println("안녕하세요 가위바위보 게임입니다.");
-		System.out.println("1.로그인하기 2.사용자계정생성 3.기타메뉴보기");
-		System.out.print(">");
+		System.out.println("┌──────────────────────────────┐");
+		System.out.println("│1.로그인하기 2.사용자계정생성 3.기타메뉴보기 │");
+		System.out.println("└──────────────────────────────┘");
+		System.out.print(">>");
 		int select = sc.nextInt();
 		switch (select) {
 		case 1:login();

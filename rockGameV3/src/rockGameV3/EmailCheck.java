@@ -6,18 +6,16 @@ package rockGameV3;
  */
 // 이메일 검증 클래스
 public class EmailCheck {
-	private String email;
 
 	public EmailCheck(String email) {
 		validate(email);
-	}
+	} 
 	public void validate(String email) {
 		if(email.isEmpty() || email.indexOf('@') == -1) {
 			System.out.println("빈 문자열이거나 @가 없습니다.");
 			System.exit(0);
 		}
 		String id = email.substring(0,email.indexOf('@'));
-		String server = email.substring(email.indexOf('@'),email.length());
 		if(id.length() >12 || id.length() < 8) {
 			System.out.println("아이디는 8~ 12자 사이여야 합니다.");
 			System.exit(0);
@@ -30,6 +28,5 @@ public class EmailCheck {
 		}else {
 			
 		}
-		this.email = id + server;
 	}
 }
