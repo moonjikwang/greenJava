@@ -16,10 +16,11 @@ public class OtherMenu {
 	PlayerInfo info = new PlayerInfo();
 
 	public OtherMenu() {
-		System.out.println("<<기타메뉴>>");
-		System.out.println("┌───────────────────────────────────────────────────┐");
+
+		System.out.println("┌──────────────────────────────────────────────────────────────────────┐");
+		System.out.println("│<<기타메뉴>>")                                                         │;
 		System.out.println("│1.총 사용자수 2.1위플레이어 3.승률꼴지부터보기 4.승률1위부터보기 5.게임종료│");
-		System.out.println("└───────────────────────────────────────────────────┘");
+		System.out.println("└──────────────────────────────────────────────────────────────────────┘");
 		System.out.print(">");
 		int select = sc.nextInt();
 		switch (select) {
@@ -36,7 +37,7 @@ public class OtherMenu {
 			info.descRank();
 			break;
 		case 5:
-			System.out.println("안녕히 가세요~");
+			System.out.println("안녕히 가세요~ (*ˊᵕˋ*)ﾉ");
 			System.exit(0);
 			break;
 			
