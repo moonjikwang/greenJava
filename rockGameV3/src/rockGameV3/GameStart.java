@@ -65,7 +65,12 @@ public class GameStart {
 			System.out.println("│1.뉴게임 2.게임종료│");
 			System.out.println("└─────────────┘");
 			System.out.print(">>");
-			newGame = sc.nextInt();
+			try {
+				newGame = sc.nextInt();
+			} catch (Exception e) {
+				System.out.println("예외발생 : " + e.getMessage() + "\n 잘못 입력했습니다. 그냥 게임을 종료합니다.");
+				newGame = 2;
+			}
 			switch (newGame) {
 			case 1:
 				break;
