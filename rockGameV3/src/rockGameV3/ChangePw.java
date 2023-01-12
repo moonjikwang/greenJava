@@ -34,7 +34,8 @@ public class ChangePw {
 		String newPassword = sc.next();
 		int result = MemberDAO.getInstance().newPasswoard(newPassword);
 		switch (result) {
-		case 0:System.out.println("비밀번호가 정상적으로 변경되었습니다.");
+		case 0:System.out.println("비밀번호가 정상적으로 변경되었습니다. 다시로그인해주세요~");
+				new Login();
 			break;
 		default:
 			System.out.println("비밀번호변경 실패");
