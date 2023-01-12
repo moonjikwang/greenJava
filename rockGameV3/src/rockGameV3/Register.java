@@ -35,7 +35,7 @@ public class Register {
 		MemberDTO member = new MemberDTO(email,password);
 		int newMember = MemberDAO.getInstance().registerId(member);
 		if (newMember == 1) {
-			System.out.println("회원가입이 완료되었습니다!");
+			System.out.println("회원가입이 완료되었습니다⸜❤︎⸝‍ ");
 			System.out.println("로그인하시겠습니까?");
 			System.out.println("로그인하시려면 Y, 메뉴로 돌아가려면 N을 입력하세요.");
 			while (true) {
