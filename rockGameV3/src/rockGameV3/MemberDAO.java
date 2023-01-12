@@ -43,12 +43,19 @@ public class MemberDAO {
 	public TreeMap<Integer, String> rateList() {
 		File[] fileList = fileList();
 		TreeMap<Integer, String> memberRate = new TreeMap<Integer, String>();
+		try {
 		for(int i = 0; i < fileList.length; i++) {
 			String filename = fileList[i].toString();
 			String name = null;
 			name = filename.substring(8,filename.length()-4);
 			int rate = Integer.parseInt(fileSearch(fileList[i], "Rate"));
 			memberRate.put(rate, name);
+		}
+		
+		}catch (Exception e) {
+			System.out.println("회원승률 리스트 취합 예외입니다. : " + e.getMessage());
+			System.out.println("회원리스트가 없습니다. 프로그램을 종료합니다.");
+			System.exit(0);
 		}
 		return memberRate;
 	}
@@ -220,7 +227,7 @@ public class MemberDAO {
 		}
 		//승률 계산 적용
 		TreeMap<String, Integer> stats = myStats(member);
-		int rate = (int)((double)stats.get("Win") / stats.get("Count") * 100);
+		int rate = (int) ((double)stats.get("Win") / stats.get("Count") * 100);
 		coverStats("Rate", rate, id);
 	}
 	// ------------------------로그아웃 메서드 끝------------------------
@@ -308,7 +315,7 @@ public class MemberDAO {
 			while ((temp = br.readLine()) != null) {
 				if (temp.startsWith(key)) {
 					int oldData = Integer.parseInt(temp.substring(temp.indexOf(":") + 1, temp.length()));
-					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (oldData + newData) + "\n");
+					newFile += (temp.substring(0, temp.indexOf(":") + 1) + (key=="Rate"?newData:oldData + newData) + "\n");
 					continue;
 				}
 				newFile += (temp + "\n");
@@ -376,4 +383,16 @@ public class MemberDAO {
 		}
 	}
 	// ----------------------부팅 메서드 끝 -----------------------
+	
+	// -----------------------이메일 중복검사 메서드  -----------------------
+	public int duplicateVal(String email) {// 이미 회원이 존재하면 -1을 리턴 .존재하지 않으면 1을 리턴
+		String fileName = divideId(email);
+		File newMember = new File(folder,fileName);
+		if(newMember.exists()) {
+			return -1;
+		}else return 1;
+		
+	}
+	// -----------------------이메일 중복검사 메서드 끝  -----------------------
+	
 }
