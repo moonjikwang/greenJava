@@ -64,7 +64,7 @@ public class Login {
 		case 1:
 			// 로그인 성공한 경우
 			// 마지막 로그인 날짜 출력, GameMenu()클래스 호출(인스턴스생성)
-			System.out.println("로그인에 성공했습니다. " + email + "님 반갑습니다:)");
+			System.out.println("로그인에 성공했습니다⸜❤︎⸝‍ " + email + "님 반갑습니다♫•*¨*•.¸¸♪✧");
 			System.out.println(member.getLastLogIn());
 			new GameMenu();
 			break;
