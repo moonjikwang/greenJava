@@ -46,10 +46,8 @@ public class Login {
 		switch (logInVal) {
 		case -1:
 			// 아이디 없는경우 -> 회원가입해주세요, Register() 클래스호출
-			if (email == null) {
 				System.out.println("해당 아이디는 없습니다:( 회원가입해주세요.");
 				new Register();
-			}
 			break;
 		case 0:
 			// 비번틀린경우 -> 3회 기회, 관리자에게 연락바랍니다(프로그램종료)
