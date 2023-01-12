@@ -47,7 +47,7 @@ public class Login {
 		case -1:
 			// 아이디 없는경우 -> 회원가입해주세요, Register() 클래스호출
 			if (email == null) {
-				System.out.println("해당 아이디는 없습니다.");
+				System.out.println("해당 아이디는 없습니다:( 회원가입해주세요.");
 				new Register();
 			}
 			break;
@@ -64,7 +64,7 @@ public class Login {
 		case 1:
 			// 로그인 성공한 경우
 			// 마지막 로그인 날짜 출력, GameMenu()클래스 호출(인스턴스생성)
-			System.out.println("로그인에 성공했습니다. " + email + "님 반갑습니다.");
+			System.out.println("로그인에 성공했습니다. " + email + "님 반갑습니다:)");
 			System.out.println(member.getLastLogIn());
 			new GameMenu();
 			break;
@@ -73,7 +73,7 @@ public class Login {
 		}
 	}
 
-	public void reInputPw() {//상속,,?
+	public void reInputPw() {
 		System.out.print("PW : ");
 		password = sc.next();
 		date = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss").format(Calendar.getInstance().getTime());
