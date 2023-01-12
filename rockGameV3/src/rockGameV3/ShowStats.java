@@ -17,10 +17,14 @@ public class ShowStats {//
 	static Scanner sc = new Scanner(System.in);
 	public ShowStats() {
 		TreeMap<String, Integer> stat = MemberDAO.getInstance().myStats(Login.member);
+		System.out.println("[전적조회]");
 		System.out.println("총 플레이수 : "+stat.get("Count") + "회");
 		System.out.print(stat.get("Win") + " 승 ");
 		System.out.print(stat.get("Lose") + " 패 ");
 		System.out.print(stat.get("Draw") + " 무 ,");
 		System.out.println("플레이어 승률 : " + (int)((double)stat.get("Win")/stat.get("Count")*100)+"%");
+		new GameMenu();
 	}
 	}
+
+		

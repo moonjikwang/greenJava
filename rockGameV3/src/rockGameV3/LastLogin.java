@@ -15,5 +15,7 @@ public class LastLogin {
 	public LastLogin() {
 	String Last = MemberDAO.getInstance().dataSearch(Login.member, "LastLogOut");
 	System.out.println(Last);
+	new GameMenu();
+	
 	}
 }

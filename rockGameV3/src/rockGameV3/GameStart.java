@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class GameStart {
 	Scanner sc = new Scanner(System.in);
 
+	// -----------------------생성자 정의---------------------------
 	public GameStart() {
 		startLogic(Login.member);
 	}
@@ -29,6 +30,8 @@ public class GameStart {
 		String result = null;
 		String selectUser = null;
 		int newGame = 0;
+		// --------------------------------------------------------
+
 		// --------------------게임시작 종료하기전까지 반복--------------
 		while (true) {
 			boolean flag = false;
@@ -43,39 +46,40 @@ public class GameStart {
 
 			String[] com = { "가위", "바위", "보" };
 			selectCom = com[(int) (Math.random() * com.length)];
+
 			if (selectUser.equals("보") && selectCom.equals("바위") || selectUser.equals("가위") && selectCom.equals("보")
 					|| selectUser.equals("바위") && selectCom.equals("가위")) {
 				result = "축하합니다! 유저의 승리 ✿ܓ✿ܓ "; // 이기거나
-				member.setWin(member.getWin() + 1);
-			}else if(selectUser.equals(com)) {
-				result = "비겼습니다." ;     //비기거나
-				member.setDraw(member.getDraw() + 1);
-			}else{
-				result = "졌습니다." ; //졌습니다.
-				member.setLose(member.getLose() + 1);
+				member.setWin(member.getWin()+1);
+			} else if (selectUser.equals(selectCom)) {
+				result = "비겼습니다."; // 비기거나
+				member.setDraw(member.getDraw()+1);
+			} else {
+				result = "ㅜㅜ 컴퓨터의 승리 "; // 지거나
+				member.setLose(member.getLose()+1);
 			}
-			member.setCount(member.getLose() + 1);		
-			System.out.println("결과: "+ result  + "( 컴퓨터 : "+selectCom +  ", 사용자 : " +selectUser+" )");
-			
+			member.setCount(member.getCount()+1); // 게임 카운트 + 1
+			System.out.println(result + "( 컴퓨터: " + selectCom + " 유저 :" + selectUser + ")");
 			do {
-				System.out.println("1.NEW게임 2.게임종료");
-				System.out.print(">");
-				newGame = sc.nextInt();
-			switch(newGame)	{
-			case 1 :
-						break;
-			case 2 :
-						String date = new SimpleDateFormat("yyyy-MM--dd a hh:mm:ss").format(Calendar.getInstance().getTime());
-						MemberDAO.getInstance().logOut(member, date);
-						System.out.println("게임기록이 저장되었습니다.안녕히가세요.₍ᐢ.ˬ.ᐢ₎❤️");
-						System.exit(0);
-						break;
-			default ://
-					System.out.println("잘못입력하셨습니다.다시입력하세요");
-					break;	
+			System.out.println("1.뉴게임 2.게임종료");
+			System.out.print(">");
+			newGame = sc.nextInt();
+			switch (newGame) {
+			case 1:
+				break;
+			case 2:
+				String date = new SimpleDateFormat("yyyy-MM-dd a hh:mm:ss").format(Calendar.getInstance().getTime());
+				MemberDAO.getInstance().logOut(member,date);
+				System.out.println("게임기록이 저장되었습니다.안녕히가세요.₍ᐢ.ˬ.ᐢ₎❤️");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("잘못 입력하셨습니다.");
+				break;
 			}
-			}while(newGame != 1 && newGame != 2);//
+			}while(newGame != 1 && newGame != 2);
+			// ------------------------------------------------------------------
 		}
-	}
 
+	}
 }
