@@ -19,8 +19,10 @@ public class GameMenu {
 	}
 
 	private void showMenu() {
-		
-		System.out.println("1.게임하기 2.전적보기 3.마지막접속확인 4.암호변경");
+		System.out.println("┌─────────────────────────────────┐");
+		System.out.println("│1.게임하기 2.전적보기 3.마지막접속확인 4.암호변경│");
+		System.out.println("└─────────────────────────────────┘");
+		System.out.print(">>");
 		int userSelect = sc.nextInt();
 		switch (userSelect) {
 		case 1:

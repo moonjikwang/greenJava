@@ -37,8 +37,8 @@ public class GameStart {
 			boolean flag = false;
 			do {
 				if (flag)
-					System.out.println("틀린값입니다. 다시입력해주세요.");
-				System.out.println("가위바위보 중에 입력하세요");
+					System.out.println("[틀린값입니다. 다시입력해주세요.]");
+				System.out.println("[가위바위보 중에 입력하세요]");
 				System.out.print(">");
 				selectUser = sc.next();
 				flag = true;
@@ -61,8 +61,10 @@ public class GameStart {
 			member.setCount(member.getCount()+1); // 게임 카운트 + 1
 			System.out.println(result + "( 컴퓨터: " + selectCom + " 유저 :" + selectUser + ")");
 			do {
-			System.out.println("1.뉴게임 2.게임종료");
-			System.out.print(">");
+			System.out.println("┌─────────────┐");
+			System.out.println("│1.뉴게임 2.게임종료│");
+			System.out.println("└─────────────┘");
+			System.out.print(">>");
 			newGame = sc.nextInt();
 			switch (newGame) {
 			case 1:
