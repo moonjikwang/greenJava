@@ -1,4 +1,4 @@
-package rockGameV3;
+package rockGameV4db;
 /**
  * 
  * @author 이유현
@@ -9,7 +9,6 @@ package rockGameV3;
  */
 //플레이어관련 메서드2개필요 . 총플레이어수 메서드,랭킹1위 메서드
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,7 +21,7 @@ public class PlayerInfo {
 	//---------------------필드선언 및 초기화 --------------------
 	TreeMap<String, Integer> info = null;
 	List<Entry<String,Integer>> listRate;
-	File[] total = null;
+	int total = 0;
 	
 	int rank = 0;
 	//---------------------필드선언 및 초기화 끝 --------------------
@@ -32,7 +31,7 @@ public class PlayerInfo {
 	public PlayerInfo() {
 		
 		info = MemberDAO.getInstance().rateList();
-		total = MemberDAO.getInstance().fileList();
+		total = MemberDAO.getInstance().memberCount();
 		listRate = new ArrayList<Entry<String,Integer>>(info.entrySet());
 	
 	}
@@ -41,7 +40,7 @@ public class PlayerInfo {
 	
 	//--------------------- 총 이용자 수 출력메서드 -----------------------
 	public void totalPlayer() {
-		System.out.println("총 이용자 수 : " + total.length + "명 입니다.");
+		System.out.println("총 이용자 수 : " + total + "명 입니다.");
 		new OtherMenu();
 	}
 	

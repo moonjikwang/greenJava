@@ -1,4 +1,4 @@
-package rockGameV3;
+package rockGameV4db;
 /**
  * 
  * @author 박수현
@@ -20,9 +20,9 @@ public class ChangePw {
 		String password = sc.next();
 		int result = MemberDAO.getInstance().changePw(password);
 		switch (result) {
-		case 0:newPassword();
+		case 1:newPassword();
 			break;
-		case -1:System.out.println("기존비밀번호가 틀렸습니다.");
+		case 0:System.out.println("기존비밀번호가 틀렸습니다.");
 		break;
 		default:
 			break;
@@ -34,7 +34,7 @@ public class ChangePw {
 		String newPassword = sc.next();
 		int result = MemberDAO.getInstance().newPasswoard(newPassword);
 		switch (result) {
-		case 0:System.out.println("비밀번호가 정상적으로 변경되었습니다. 다시로그인해주세요~");
+		case 1:System.out.println("비밀번호가 정상적으로 변경되었습니다. 다시로그인해주세요~");
 				new Login();
 			break;
 		default:
